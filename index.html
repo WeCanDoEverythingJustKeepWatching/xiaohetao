@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="format-detection" content="telephone=no">
+<meta name="theme-color" content="#ededed">
+<title>小核桃 · 数字资源案例库</title>
+<meta name="description" content="MG动画、数字人微课、VR虚拟仿真——精选数字教学资源案例展示">
+<!-- 微信分享卡片 -->
+<meta property="og:title" content="小核桃 · 数字资源案例库">
+<meta property="og:description" content="MG动画 · 数字人微课 · VR虚拟仿真——精选数字教学资源案例展示">
+<meta property="og:image" content="https://wecandoeverythingjustkeepwatching.github.io/xiaohetao/assets/logo.jpg">
+<link rel="stylesheet" href="styles.css?v=5">
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">
+    <img src="assets/logo.jpg" alt="小核桃 smart walnut" class="logo-img">
+    <div class="brand-text">
+      <h1>数字教材案例展示</h1>
+      <p class="subtitle">MG动画 · 数字人微课 · VR虚拟仿真 · 数字资源案例库</p>
+    </div>
+  </div>
+  <div class="header-actions">
+    <input id="search" type="search" placeholder="搜索案例 / 关键词" autocomplete="off">
+  </div>
+</header>
+
+<nav class="filters" id="filters"></nav>
+
+<main>
+  <section class="grid" id="grid"></section>
+  <p class="empty" id="empty" hidden>没有匹配的案例，换个关键词试试。</p>
+</main>
+
+<footer class="site-footer">
+  <p>© <span id="year"></span> 数字教材案例展示 · 内部演示用</p>
+</footer>
+
+<!-- 案例详情弹层 -->
+<div class="modal" id="modal" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel" role="dialog" aria-modal="true">
+    <button class="modal-close" data-close aria-label="关闭">×</button>
+    <div class="modal-media" id="modalMedia"></div>
+    <div class="modal-body">
+      <span class="badge" id="modalSubject"></span>
+      <h2 id="modalTitle"></h2>
+      <p class="modal-summary" id="modalSummary"></p>
+      <div class="tags" id="modalTags"></div>
+      <div class="meta" id="modalMeta"></div>
+      <div class="desc" id="modalDesc"></div>
+    </div>
+  </div>
+</div>
+
+<script src="app.js?v=5"></script>
+</body>
+</html>
