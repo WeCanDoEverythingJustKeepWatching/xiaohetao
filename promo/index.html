@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小核桃数字教材 · 交互式数字教材，助力高校教育数字化转型</title>
+<meta name="description" content="小核桃数字教材：面向高校的数字教材建设整体解决方案，覆盖课程建设、资源管理、学情分析与教学应用全流程。">
+<style>
+/* ============ 基础与变量 ============ */
+:root{
+  --navy:#0e3350;
+  --navy-2:#164a72;
+  --blue:#1b5e8c;
+  --blue-soft:#eaf2f8;
+  --gold:#c9a227;
+  --gold-soft:#f7efd8;
+  --ink:#23303c;
+  --gray:#5c6b78;
+  --line:#e3eaf0;
+  --bg:#ffffff;
+  --bg-gray:#f5f8fb;
+  --shadow:0 1px 3px rgba(14,51,80,.08),0 6px 20px rgba(14,51,80,.06);
+  --shadow-lg:0 8px 32px rgba(14,51,80,.14);
+  --radius:10px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{
+  font-family:"Microsoft YaHei","PingFang SC","Helvetica Neue",Arial,sans-serif;
+  color:var(--ink);background:var(--bg);line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+.container{max-width:1200px;margin:0 auto;padding:0 28px}
+section{position:relative}
+
+/* ============ 通用板块头 ============ */
+.section-head{text-align:center;max-width:760px;margin:0 auto 48px}
+.section-kicker{
+  display:inline-block;font-size:13px;letter-spacing:2px;color:var(--blue);
+  background:var(--blue-soft);border:1px solid #d3e5f2;border-radius:20px;
+  padding:4px 16px;margin-bottom:16px;font-weight:600;
+}
+.section-title{font-size:32px;font-weight:700;color:var(--navy);line-height:1.35}
+.section-sub{color:var(--gray);margin-top:12px;font-size:15px}
+.section-head .divider{width:52px;height:3px;background:var(--gold);border-radius:2px;margin:18px auto 0}
+
+/* ============ 顶部导航 ============ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;height:64px;
+  background:rgba(255,255,255,.94);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);transition:box-shadow .25s;
+}
+.nav.scrolled{box-shadow:0 2px 14px rgba(14,51,80,.08)}
+.nav-inner{height:64px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:700;color:var(--navy)}
+.brand .logo-dot{
+  width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--navy),var(--blue));
+  display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex:none;
+}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{font-size:14px;color:var(--ink);position:relative;padding:4px 0;transition:color .2s}
+.nav-links a:hover{color:var(--blue)}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--blue);transition:width .25s}
+.nav-links a:hover::after{width:100%}
+.nav-cta{
+  background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;
+  font-size:14px;padding:9px 20px;border-radius:22px;font-weight:600;transition:transform .2s,box-shadow .2s;
+}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(27,94,140,.35)}
+.nav-burger{display:none;flex-direction:column;gap:5px;padding:8px}
+.nav-burger span{width:22px;height:2px;background:var(--navy);border-radius:1px}
+
+/* ============ Banner ============ */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  background:linear-gradient(155deg,#0a263c 0%,var(--navy) 45%,var(--navy-2) 100%);
+  color:#fff;position:relative;overflow:hidden;padding:120px 0 80px;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;opacity:.5;
+  background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+  background-size:46px 46px;
+}
+.hero::after{
+  content:"";position:absolute;right:-180px;top:-120px;width:520px;height:520px;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,162,39,.22),transparent 65%);
+}
+.hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.hero-kicker{display:inline-flex;align-items:center;gap:8px;font-size:13px;letter-spacing:1px;color:#ffd97a;
+  background:rgba(201,162,39,.14);border:1px solid rgba(201,162,39,.45);border-radius:20px;padding:5px 16px;margin-bottom:22px}
+.hero h1{font-size:52px;font-weight:800;letter-spacing:2px;line-height:1.25;margin-bottom:18px}
+.hero h1 .accent{color:#ffd97a}
+.hero-sub{font-size:22px;font-weight:600;color:#eaf3fa;margin-bottom:16px}
+.hero-desc{font-size:15px;color:#b9cddd;max-width:520px;margin-bottom:34px}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-size:15px;font-weight:600;border-radius:24px;padding:13px 30px;transition:transform .2s,box-shadow .2s,background .2s;
+}
+.btn-primary{background:linear-gradient(135deg,#d9b64a,#c9a227);color:#27301c}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(201,162,39,.45)}
+.btn-ghost{border:1px solid rgba(255,255,255,.55);color:#fff}
+.btn-ghost:hover{background:rgba(255,255,255,.1);transform:translateY(-2px)}
+.hero-metrics{display:flex;gap:0;margin-top:42px;border-top:1px solid rgba(255,255,255,.14);padding-top:22px}
+.metric{flex:1;text-align:left;padding-right:22px}
+.metric+.metric{border-left:1px solid rgba(255,255,255,.14);padding-left:22px}
+.metric strong{display:block;font-size:26px;font-weight:800;color:#fff}
+.metric strong em{font-style:normal;color:#ffd97a}
+.metric span{font-size:13px;color:#9fb6c8}
+.hero-visual{position:relative}
+.device-frame{
+  background:#fff;border-radius:14px;box-shadow:0 24px 70px rgba(0,0,0,.4);overflow:hidden;
+  transform:perspective(1200px) rotateY(-6deg) rotateX(2deg);
+}
+.device-top{height:28px;background:#eef2f6;display:flex;align-items:center;padding:0 12px;gap:6px}
+.device-top i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.device-top i:nth-child(1){background:#f57c6c}
+.device-top i:nth-child(2){background:#f2c25c}
+.device-top i:nth-child(3){background:#7fc97f}
+.device-screen{background:var(--blue-soft);padding:16px}
+.mock-book{background:#fff;border-radius:8px;box-shadow:0 3px 12px rgba(14,51,80,.1);overflow:hidden}
+.mock-book-bar{height:46px;background:linear-gradient(135deg,var(--navy),var(--blue));display:flex;align-items:center;padding:0 16px;gap:8px}
+.mock-book-bar span{width:60px;height:7px;border-radius:4px;background:rgba(255,255,255,.35)}
+.mock-book-bar span:first-child{width:92px;background:rgba(255,255,255,.65)}
+.mock-book-body{display:grid;grid-template-columns:110px 1fr;min-height:250px}
+.mock-book-nav{border-right:1px solid var(--line);padding:14px 12px;display:flex;flex-direction:column;gap:10px}
+.mock-book-nav i{height:8px;border-radius:4px;background:#e2eaf1}
+.mock-book-nav i.on{background:var(--blue)}
+.mock-book-main{padding:16px}
+.mock-hero-row{display:flex;gap:12px;margin-bottom:12px}
+.mock-hero-row div{flex:1;height:64px;border-radius:6px;background:linear-gradient(135deg,#e3eef7,#f3f8fc);position:relative;overflow:hidden}
+.mock-hero-row div::after{content:"";position:absolute;left:8px;right:8px;top:26px;height:6px;border-radius:3px;background:#c9dbe9}
+.mock-line{height:8px;border-radius:4px;background:#e6edf3;margin-bottom:10px}
+.mock-line.w60{width:60%}.mock-line.w40{width:40%}
+.mock-quiz{display:flex;align-items:center;gap:8px;margin-top:12px}
+.mock-quiz .q{width:20px;height:20px;border-radius:5px;background:var(--gold);flex:none}
+.mock-quiz div{height:8px;border-radius:4px;background:#e2eaf1;flex:1}
+.hero-badge{
+  position:absolute;right:-6px;bottom:26px;background:#fff;border-radius:10px;box-shadow:var(--shadow-lg);
+  padding:12px 16px;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink);
+}
+.hero-badge .ico{width:34px;height:34px;border-radius:8px;background:var(--blue-soft);display:flex;align-items:center;justify-content:center;font-size:17px}
+.hero-badge b{display:block;font-size:13px;color:var(--navy)}
+.hero-badge span{font-size:12px;color:var(--gray)}
+
+/* ============ 滚动淡入 ============ */
+.fade{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease}
+.fade.in{opacity:1;transform:none}
+
+/* ============ 板块1：政策导向 ============ */
+.section{padding:88px 0}
+.section-gray{background:var(--bg-gray);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.policy-tabs{display:flex;justify-content:center;gap:14px;margin-bottom:40px;flex-wrap:wrap}
+.policy-tab{
+  font-size:14px;font-weight:600;color:var(--gray);border:1px solid var(--line);
+  background:#fff;border-radius:24px;padding:9px 22px;transition:all .2s;
+}
+.policy-tab:hover{border-color:var(--blue);color:var(--blue)}
+.policy-tab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.policy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.policy-card{
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+  cursor:pointer;transition:transform .22s,box-shadow .22s,border-color .22s;position:relative;
+}
+.policy-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:#c8dbe9}
+.policy-card .shot{
+  height:212px;background:#f7fafc;display:flex;align-items:center;justify-content:center;
+  border-bottom:1px solid var(--line);padding:16px;position:relative;
+}
+.policy-card .badge{position:absolute;top:12px;left:12px;z-index:3;font-size:11px;color:#fff;
+  background:rgba(14,51,80,.82);padding:3px 10px;border-radius:12px}
+.policy-card .mask{position:absolute;inset:0;background:linear-gradient(180deg,rgba(247,250,252,0),rgba(247,250,252,.92));display:flex;align-items:flex-end;
+  padding:12px 14px;font-size:12px;color:var(--gray);opacity:0;transform:translateY(7px);transition:all .22s;z-index:2}
+.policy-card:hover .mask{opacity:1;transform:none}
+.policy-card .info{padding:16px 18px 18px}
+.policy-card .info h3{font-size:15.5px;font-weight:700;color:var(--navy);line-height:1.5;margin-bottom:8px}
+.policy-card .meta{display:flex;justify-content:space-between;align-items:center}
+.policy-card .dept{font-size:12px;color:var(--gray);background:#f1f5f9;border-radius:12px;padding:3px 10px}
+.policy-card .more{font-size:12.5px;color:var(--blue);font-weight:600;opacity:0;transform:translateX(-5px);transition:all .22s}
+.policy-card:hover .more{opacity:1;transform:none}
+
+/* 政策文件示意（公文样式） */
+.doc-shot{width:100%;max-width:236px;background:#fff;border:1px solid #e5e9ee;border-radius:6px;padding:15px 14px;box-shadow:0 2px 8px rgba(14,51,80,.08)}
+.doc-shot .red{width:88%;height:6px;border-radius:3px;background:#c0392b;margin:0 auto 9px}
+.doc-shot .doc-title{text-align:center;font-size:11px;font-weight:700;color:#2c3e50;line-height:1.5;margin-bottom:10px;letter-spacing:.5px}
+.doc-shot .doc-no{text-align:center;font-size:9.5px;color:#7f8c8d;margin-bottom:9px}
+.doc-shot .doc-body{display:flex;flex-direction:column;gap:6px}
+.doc-shot .doc-body i{height:5px;border-radius:3px;background:#e8edf2}
+.doc-shot .doc-body i.w70{width:70%}.doc-shot .doc-body i.w55{width:55%}.doc-shot .doc-body i.w80{width:80%}
+.doc-shot .stamp{position:relative;margin-top:10px;height:36px}
+.doc-shot .stamp::before{content:"示例文件 · 待替换";position:absolute;right:0;top:0;font-size:8.5px;color:#b0bec5;border:1px dashed #c8d4dd;border-radius:40%;
+  transform:rotate(-8deg);padding:6px 7px;white-space:nowrap}
+.doc-shot.long{max-width:186px}
+
+/* ============ 弹窗 ============ */
+.overlay{
+  position:fixed;inset:0;z-index:300;background:rgba(9,25,38,.66);backdrop-filter:blur(3px);
+  display:flex;align-items:center;justify-content:center;padding:28px;
+  opacity:0;pointer-events:none;transition:opacity .25s;
+}
+.overlay.open{opacity:1;pointer-events:auto}
+.modal{
+  background:#fff;border-radius:14px;width:min(960px,100%);max-height:86vh;overflow:hidden;
+  box-shadow:0 30px 80px rgba(0,0,0,.4);transform:translateY(18px) scale(.98);transition:transform .28s;
+  display:flex;flex-direction:column;
+}
+.overlay.open .modal{transform:none}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;border-bottom:1px solid var(--line)}
+.modal-head h3{font-size:17px;color:var(--navy);font-weight:700;padding-right:16px}
+.modal-close{width:34px;height:34px;border-radius:50%;background:#f1f5f9;color:var(--gray);font-size:18px;line-height:34px;
+  text-align:center;flex:none;transition:background .2s,color .2s}
+.modal-close:hover{background:#e3ecf3;color:var(--navy)}
+.modal-body{overflow:auto;padding:22px;display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.modal-body.case-only{grid-template-columns:1fr}
+.modal-shot{background:#f7fafc;border:1px solid var(--line);border-radius:10px;padding:18px;display:flex;align-items:center;justify-content:center;min-height:300px}
+.modal-info h4{font-size:16.5px;color:var(--navy);margin-bottom:5px}
+.modal-info .m-meta{font-size:12.5px;color:var(--blue);margin-bottom:14px}
+.modal-info p{font-size:14px;color:#44525e;margin-bottom:14px}
+.modal-info .note{font-size:12.5px;color:#8a97a1;background:#f4f7fa;border-radius:8px;padding:10px 12px;margin-bottom:16px;line-height:1.6}
+.modal-dl{
+  display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--navy),var(--blue));
+  color:#fff;font-size:14px;font-weight:600;border-radius:22px;padding:11px 24px;transition:transform .2s,box-shadow .2s;
+}
+.modal-dl:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(27,94,140,.4)}
+
+/* 案例视频弹窗 */
+.case-video{width:100%;aspect-ratio:16/9;background:#0b1a28;border-radius:10px;overflow:hidden}
+.case-video video{width:100%;height:100%;object-fit:contain;background:#000}
+
+/* ============ 板块2：优势与创新 ============ */
+.sec-tabs{display:flex;justify-content:center;gap:12px;margin-bottom:44px}
+.sec-tab{font-size:15px;font-weight:600;color:var(--gray);border-bottom:2px solid transparent;padding:8px 4px;margin:0 8px;transition:color .2s,border-color .2s}
+.sec-tab:hover{color:var(--blue)}
+.sec-tab.active{color:var(--blue);border-color:var(--blue)}
+.tab-panel{display:none}
+.tab-panel.active{display:block;animation:panelIn .35s ease}
+@keyframes panelIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.adv-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.adv-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px 24px;transition:transform .22s,box-shadow .22s;text-align:center}
+.adv-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.adv-ico{width:56px;height:56px;margin:0 auto 16px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px}
+.adv-ico.b1{background:#e8f1f9}.adv-ico.b2{background:#f5eedc}.adv-ico.b3{background:#eaf4ec}.adv-ico.b4{background:#f6ebf1}.adv-ico.b5{background:#edf1fa}.adv-ico.b6{background:#f2efe9}
+.adv-card h3{font-size:16px;color:var(--navy);margin-bottom:10px}
+.adv-card p{font-size:13.5px;color:var(--gray)}
+
+/* 截图横向滑动 */
+.slide-wrap{position:relative;margin-top:14px}
+.slide-track{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 4px 18px;
+  scrollbar-width:thin;scrollbar-color:#c9d8e4 transparent}
+.slide-track::-webkit-scrollbar{height:6px}
+.slide-track::-webkit-scrollbar-thumb{background:#c9d8e4;border-radius:3px}
+.slide-card{flex:none;width:300px;scroll-snap-align:start;cursor:zoom-in;transition:transform .2s}
+.slide-card:hover{transform:translateY(-3px)}
+.slide-card .snap{height:196px;background:#f7fafc;border:1px solid var(--line);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.slide-card figcaption{font-size:12.5px;color:var(--gray);margin-top:10px;text-align:center}
+.slide-arrow{
+  position:absolute;top:84px;width:38px;height:38px;border-radius:50%;background:#fff;border:1px solid var(--line);
+  box-shadow:var(--shadow);color:var(--navy);font-size:16px;z-index:5;transition:all .2s;display:flex;align-items:center;justify-content:center;
+}
+.slide-arrow:hover{background:var(--navy);color:#fff}
+.slide-arrow.prev{left:-16px}
+.slide-arrow.next{right:-16px}
+
+/* 动态图标演示（轻量） */
+.dyn-row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:44px}
+.dyn-item{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px 22px;text-align:center;transition:box-shadow .25s}
+.dyn-item:hover{box-shadow:var(--shadow-lg)}
+.dyn-ico{position:relative;width:74px;height:74px;margin:0 auto 14px}
+.dyn-ico svg{width:74px;height:74px}
+.dyn-item h4{font-size:15px;color:var(--navy);margin-bottom:8px}
+.dyn-item p{font-size:13px;color:var(--gray)}
+.pulse-ring{animation:pulseRing 2.4s ease-out infinite;transform-origin:center}
+@keyframes pulseRing{0%{transform:scale(.6);opacity:.75}70%{transform:scale(1.08);opacity:0}100%{transform:scale(1.08);opacity:0}}
+.pulse-dot{animation:pulseDot 2.4s ease-in-out infinite}
+@keyframes pulseDot{0%,100%{opacity:.45}50%{opacity:1}}
+.sync-move{animation:syncMove 2.2s ease-in-out infinite}
+@keyframes syncMove{0%,100%{transform:translateX(-7px);opacity:.6}50%{transform:translateX(7px);opacity:1}}
+.grow-bar{animation:growBar 1.6s ease-in-out infinite alternate;transform-origin:bottom}
+@keyframes growBar{from{transform:scaleY(.55)}to{transform:scaleY(1)}}
+
+/* ============ 板块3：案例库 ============ */
+.res-toolbar{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:28px}
+.res-filters{display:flex;gap:10px;flex-wrap:wrap}
+.res-filter{font-size:13.5px;font-weight:600;color:var(--gray);border:1px solid var(--line);background:#fff;border-radius:22px;padding:7px 18px;transition:all .2s}
+.res-filter:hover{border-color:var(--blue);color:var(--blue)}
+.res-filter.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.res-search{position:relative}
+.res-search input{
+  width:250px;border:1px solid var(--line);border-radius:22px;padding:9px 16px 9px 38px;font-size:13.5px;color:var(--ink);
+  outline:none;transition:border-color .2s,box-shadow .2s;background:#fff;
+}
+.res-search input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(27,94,140,.12)}
+.res-search::before{content:"🔍";position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:13px;opacity:.55}
+.case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.case-card{
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;cursor:pointer;
+  transition:transform .22s,box-shadow .22s;display:flex;flex-direction:column;
+}
+.case-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.case-cover{position:relative;height:168px;overflow:hidden;background:#10263b}
+.case-cover img{width:100%;height:100%;object-fit:cover;transition:transform .35s}
+.case-card:hover .case-cover img{transform:scale(1.05)}
+.case-cover .cover-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+.case-cover .play-badge{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:46px;height:46px;border-radius:50%;
+  background:rgba(255,255,255,.9);color:var(--navy);display:flex;align-items:center;justify-content:center;
+  font-size:16px;transition:transform .2s,background .2s;box-shadow:0 4px 14px rgba(0,0,0,.3);
+}
+.case-card:hover .play-badge{transform:translate(-50%,-50%) scale(1.12);background:#fff}
+.case-cover .pin-badge{position:absolute;top:10px;left:10px;background:rgba(201,162,39,.94);color:#332c12;font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px;z-index:2}
+.case-body{padding:15px 16px 17px;display:flex;flex-direction:column;gap:8px;flex:1}
+.case-body h3{font-size:14.5px;font-weight:700;color:var(--navy);line-height:1.5}
+.case-body p{font-size:12.5px;color:var(--gray);flex:1}
+.case-tags{display:flex;gap:6px;flex-wrap:wrap}
+.case-tags span{font-size:11px;color:var(--blue);background:var(--blue-soft);border-radius:10px;padding:2px 9px}
+.res-empty{text-align:center;color:var(--gray);padding:48px 0;display:none;font-size:14px}
+.res-more{
+  margin-top:52px;text-align:center;padding-top:36px;border-top:1px dashed var(--line);
+}
+.res-more p{font-size:13.5px;color:var(--gray);margin-bottom:16px}
+
+/* ============ 板块4：解决方案 ============ */
+.sol-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:34px;align-items:start}
+.sol-panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow)}
+.sol-panel h3{font-size:19px;color:var(--navy);margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.sol-panel .sol-tag{font-size:12px;color:#fff;background:var(--gold);border-radius:12px;padding:2px 10px;flex:none}
+.sol-panel .sol-intro{font-size:13.5px;color:var(--gray);margin-bottom:22px}
+.sol-feats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+.sol-feat{background:#f6f9fc;border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:13px;color:#33424e}
+.sol-feat b{color:var(--navy)}
+/* 流程节点 */
+.flow{position:relative;display:flex;justify-content:space-between;padding:10px 0 6px}
+.flow::before{content:"";position:absolute;left:26px;right:26px;top:30px;height:2px;background:#dfe8f0}
+.flow-node{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer}
+.flow-dot{
+  width:46px;height:46px;border-radius:50%;background:#fff;border:2px solid var(--blue);color:var(--blue);
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;transition:all .22s;
+}
+.flow-node:hover .flow-dot{background:var(--blue);color:#fff;transform:scale(1.1);box-shadow:0 6px 14px rgba(27,94,140,.35)}
+.flow-node span.f-label{font-size:13px;font-weight:600;color:var(--navy)}
+.flow-node span.f-sub{font-size:11.5px;color:var(--gray)}
+.flow-pop{
+  position:absolute;bottom:66px;left:50%;transform:translateX(-50%) translateY(6px);width:230px;background:#fff;
+  border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow-lg);padding:13px 15px;font-size:12.5px;color:#44525e;
+  opacity:0;pointer-events:none;transition:all .22s;z-index:20;text-align:left;line-height:1.65;
+}
+.flow-node:hover .flow-pop{opacity:1;transform:translateX(-50%) translateY(0)}
+.flow-pop b{color:var(--navy);display:block;margin-bottom:4px;font-size:13px}
+.flow-pop::after{content:"";position:absolute;left:50%;bottom:-6px;width:12px;height:12px;background:#fff;border-right:1px solid var(--line);border-bottom:1px solid var(--line);transform:translateX(-50%) rotate(45deg)}
+/* 架构简图 */
+.arch{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow)}
+.arch h3{font-size:17px;color:var(--navy);margin-bottom:4px;text-align:center}
+.arch .a-sub{font-size:12.5px;color:var(--gray);text-align:center;margin-bottom:20px}
+.arch-layer{border:1.5px solid #d8e2ea;border-radius:10px;padding:12px 14px;margin-bottom:12px;background:#fbfcfe}
+.arch-layer.red{border-color:#e8d9a8;background:#fcf8ec}
+.arch-layer h5{font-size:13px;color:var(--navy);font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.arch-tags{display:flex;gap:7px;flex-wrap:wrap}
+.arch-tags i{font-style:normal;font-size:11.5px;color:#44525e;background:#eef3f7;border:1px solid #e0e8ef;border-radius:14px;padding:3px 11px}
+.arch-layer.red .arch-tags i{background:#f7efd8;border-color:#ecdda8}
+.arch-arrow{text-align:center;color:var(--blue);font-size:16px;line-height:1;margin:-2px 0 2px}
+/* 外部链接按钮 */
+.ext-link-row{margin-top:54px;text-align:center;padding-top:38px;border-top:1px dashed var(--line)}
+.ext-link-row p{font-size:13.5px;color:var(--gray);margin-bottom:18px}
+
+/* ============ 板块5：联系 ============ */
+.contact-wrap{display:grid;grid-template-columns:1fr 1.1fr;gap:52px;align-items:center}
+.contact-left h3{font-size:26px;color:var(--navy);margin-bottom:12px;font-weight:700}
+.contact-left p{font-size:14.5px;color:var(--gray);margin-bottom:22px;line-height:1.9}
+.contact-ways{display:flex;flex-direction:column;gap:14px}
+.contact-way{display:flex;align-items:center;gap:13px}
+.contact-way .cw-ico{width:42px;height:42px;border-radius:11px;background:var(--blue-soft);display:flex;align-items:center;justify-content:center;font-size:19px;flex:none}
+.contact-way b{display:block;font-size:14px;color:var(--navy)}
+.contact-way span{font-size:13px;color:var(--gray)}
+.qr-box{
+  justify-self:end;text-align:center;background:#fff;border:1px solid var(--line);border-radius:16px;
+  padding:28px 30px 24px;box-shadow:var(--shadow);transition:transform .3s ease,box-shadow .3s ease;max-width:330px;
+}
+.qr-box:hover{transform:scale(1.035);box-shadow:var(--shadow-lg)}
+.qr-holder{width:212px;height:212px;margin:0 auto 16px;border:1px solid var(--line);border-radius:10px;background:#fff;
+  display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.qr-holder .qr-tip{position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,.92);font-size:11px;color:#9aa7b1;padding:3px}
+.qr-box h4{font-size:15px;color:var(--navy);margin-bottom:6px;font-weight:700}
+.qr-box p{font-size:12.5px;color:var(--gray);line-height:1.7}
+.qr-note{margin-top:14px;font-size:11.5px;color:#a2adb5;border-top:1px dashed var(--line);padding-top:12px}
+
+/* ============ 页脚 ============ */
+.footer{background:#0a2236;color:#9db4c6;padding:44px 0 34px}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:18px}
+.footer .brand{color:#fff;font-size:17px}
+.footer .brand .logo-dot{background:linear-gradient(135deg,#d9b64a,#c9a227);color:#332c12}
+.footer-links{display:flex;gap:24px;font-size:13px}
+.footer-links a:hover{color:#fff}
+.footer-copy{width:100%;text-align:center;font-size:12px;color:#6f8ba0;border-top:1px solid rgba(255,255,255,.1);padding-top:22px;margin-top:22px}
+
+/* ============ 悬浮预约 ============ */
+.fab{
+  position:fixed;right:26px;bottom:26px;z-index:150;background:linear-gradient(135deg,#d9b64a,#c9a227);color:#27301c;
+  font-size:15px;font-weight:700;border-radius:26px;padding:14px 26px;display:flex;align-items:center;gap:9px;
+  box-shadow:0 10px 26px rgba(201,162,39,.5);transition:transform .22s,box-shadow .22s;
+}
+.fab:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(201,162,39,.6)}
+.fab .fab-ico{font-size:18px;line-height:1}
+
+/* ============ 预约表单弹窗 ============ */
+.form-modal{width:min(480px,100%)}
+.form-row{margin-bottom:16px}
+.form-row label{display:block;font-size:13px;font-weight:600;color:var(--navy);margin-bottom:6px}
+.form-row input,.form-row select,.form-row textarea{
+  width:100%;border:1px solid var(--line);border-radius:8px;padding:10px 13px;font-size:14px;color:var(--ink);
+  font-family:inherit;outline:none;transition:border-color .2s,box-shadow .2s;background:#fff;
+}
+.form-row input:focus,.form-row select:focus,.form-row textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(27,94,140,.12)}
+.form-row textarea{resize:vertical;min-height:76px}
+.form-submit{width:100%;background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;font-size:15px;font-weight:700;
+  border-radius:24px;padding:13px;margin-top:6px;transition:transform .2s,box-shadow .2s}
+.form-submit:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(27,94,140,.4)}
+.form-ok{text-align:center;padding:30px 10px}
+.form-ok .ok-ico{width:64px;height:64px;border-radius:50%;background:#eaf4ec;color:#3c9a5e;font-size:30px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.form-ok h4{font-size:18px;color:var(--navy);margin-bottom:8px}
+.form-ok p{font-size:13.5px;color:var(--gray)}
+
+/* ============ 响应式 ============ */
+@media (max-width:1024px){
+  .policy-grid,.adv-cards,.case-grid{grid-template-columns:repeat(2,1fr)}
+  .hero-inner{grid-template-columns:1fr;gap:44px}
+  .hero h1{font-size:40px}
+  .hero-visual{max-width:520px}
+  .sol-grid{grid-template-columns:1fr}
+  .contact-wrap{grid-template-columns:1fr;gap:36px}
+  .qr-box{justify-self:start}
+}
+@media (max-width:760px){
+  .nav-links{display:none}
+  .nav-burger{display:flex}
+  .nav-links.mobile-open{display:flex;position:absolute;top:64px;left:0;right:0;background:#fff;flex-direction:column;padding:18px 26px;
+    gap:16px;border-bottom:1px solid var(--line);box-shadow:var(--shadow-lg)}
+  .hero{padding:100px 0 64px}
+  .hero h1{font-size:32px}
+  .hero-sub{font-size:17px}
+  .hero-metrics{flex-direction:column;gap:14px}
+  .metric+.metric{border-left:none;padding-left:0}
+  .section{padding:60px 0}
+  .section-title{font-size:25px}
+  .policy-grid,.adv-cards,.case-grid,.dyn-row{grid-template-columns:1fr}
+  .modal-body{grid-template-columns:1fr;gap:18px;padding:16px}
+  .sol-feats{grid-template-columns:1fr}
+  .slide-card{width:250px}
+  .res-search input{width:100%}
+  .res-toolbar{flex-direction:column;align-items:stretch}
+  .fab{right:16px;bottom:18px;padding:12px 20px;font-size:14px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ 顶部导航 ============ -->
+<nav class="nav" id="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="#top"><span class="logo-dot">核</span><span>小核桃数字教材</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="#policy">政策导向</a>
+      <a href="#advantage">核心优势</a>
+      <a href="#cases">案例资源</a>
+      <a href="#solution">解决方案</a>
+      <a href="#contact">联系我们</a>
+      <a class="nav-cta" href="javascript:void(0)" onclick="openAppointment()">预约演示</a>
+    </div>
+    <button class="nav-burger" id="navBurger" aria-label="菜单"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- ============ 首屏 Banner ============ -->
+<section class="hero" id="top">
+  <div class="container hero-inner">
+    <div class="hero-content">
+      <span class="hero-kicker">● 教育数字化 · 数字教材整体解决方案</span>
+      <h1>小核桃<span class="accent">数字教材</span></h1>
+      <p class="hero-sub">交互式数字教材，助力高校教育数字化转型</p>
+      <p class="hero-desc">面向高校教务处与一线教师，提供课程建设、资源管理、学情分析与教学应用一体化服务，让教材从静态纸面走向动态交互。</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="javascript:void(0)" onclick="openAppointment()">预约产品演示</a>
+        <a class="btn btn-ghost" href="#cases">查看案例资源</a>
+      </div>
+      <div class="hero-metrics">
+        <div class="metric"><strong>教 · 学 · 评 · 管</strong><span>贯穿教学全流程</span></div>
+        <div class="metric"><strong>多端<span class="accent">·</span>同步</strong><span>电脑 / 平板 / 手机自适应</span></div>
+        <div class="metric"><strong>数据<span class="accent">·</span>驱动</strong><span>学情统计精准反馈</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="device-frame">
+        <div class="device-top"><i></i><i></i><i></i></div>
+        <div class="device-screen">
+          <div class="mock-book">
+            <div class="mock-book-bar"><span></span><span></span><span></span></div>
+            <div class="mock-book-body">
+              <div class="mock-book-nav"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="mock-book-main">
+                <div class="mock-hero-row"><div></div><div></div></div>
+                <div class="mock-line w60"></div>
+                <div class="mock-line"></div>
+                <div class="mock-line w40"></div>
+                <div class="mock-quiz"><span class="q"></span><div></div></div>
+                <div class="mock-quiz"><span class="q" style="background:var(--blue)"></span><div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-badge">
+        <span class="ico">📊</span>
+        <div><b>学情实时反馈</b><span>交互数据可视化分析</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 板块1：政策导向 ============ -->
+<section class="section" id="policy">
+  <div class="container">
+    <div class="section-head fade">
+      <span class="section-kicker">POLICY ORIENTATION</span>
+      <h2 class="section-title">响应教育数字化战略，赋能高等教育教学改革</h2>
+      <p class="section-sub">紧跟国家教育数字化战略行动，以政策为纲、以标准为尺，为高校数字教材建设提供合规可靠的实践路径。</p>
+      <div class="divider"></div>
+    </div>
+    <div class="policy-tabs fade" id="policyTabs"></div>
+    <div class="policy-grid fade" id="policyGrid"></div>
+  </div>
+</section>
+
+<!-- ============ 板块2：数字教材优势与创新亮点 ============ -->
+<section class="section section-gray" id="advantage">
+  <div class="container">
+    <div class="section-head fade">
+      <span class="section-kicker">PRODUCT VALUE</span>
+      <h2 class="section-title">交互式数字教材 · 重构高校课堂教学形态</h2>
+      <p class="section-sub">区别于普通静态 PDF 电子书，小核桃以内容交互、学情数据与多端协同为核心，重塑课前、课中、课后的教学闭环。</p>
+      <div class="divider"></div>
+    </div>
+
+    <div class="sec-tabs fade" id="advTabs">
+      <button class="sec-tab active" data-tab="tabAdv">核心优势</button>
+      <button class="sec-tab" data-tab="tabInnov">创新亮点</button>
+    </div>
+
+    <!-- 核心优势 Tab -->
+    <div class="tab-panel active" id="tabAdv">
+      <div class="adv-cards fade">
+        <div class="adv-card">
+          <div class="adv-ico b1">📦</div>
+          <h3>多形态内容载体</h3>
+          <p>内嵌测验、三维模型、音视频与批注工具，教材内容从静态图文升级为可交互学习载体。</p>
+        </div>
+        <div class="adv-card">
+          <div class="adv-ico b2">🧭</div>
+          <h3>学习行为可视化</h3>
+          <p>学情管理后台沉淀学习进度、作答正确率与教学分析，让教师对学情一目了然。</p>
+        </div>
+        <div class="adv-card">
+          <div class="adv-ico b3">🔄</div>
+          <h3>多端同步体验</h3>
+          <p>电脑端、平板端、手机端自适应排版，学习进度云端同步，随课堂节奏自由切换。</p>
+        </div>
+      </div>
+
+      <!-- 截图横向滑动 -->
+      <div class="slide-wrap fade">
+        <button class="slide-arrow prev" id="slidePrev" aria-label="上一组">‹</button>
+        <div class="slide-track" id="slideTrack">
+          <figure class="slide-card">
+            <div class="snap" data-zoom="产品界面示意">
+              <svg width="240" height="156" viewBox="0 0 240 156" role="img" aria-label="数字教材交互界面示意图">
+                <rect x="0" y="0" width="240" height="156" rx="8" fill="#fff" stroke="#dfe6ec"/>
+                <rect x="0" y="0" width="240" height="34" rx="8" fill="#16395b"/>
+                <rect x="12" y="11" width="70" height="12" rx="6" fill="#4d7ba6"/>
+                <rect x="150" y="11" width="34" height="12" rx="6" fill="#c9a227"/>
+                <rect x="190" y="11" width="38" height="12" rx="6" fill="#3d6d97"/>
+                <rect x="12" y="48" width="58" height="8" rx="4" fill="#dde5ec"/>
+                <rect x="12" y="64" width="46" height="8" rx="4" fill="#dde5ec"/>
+                <rect x="12" y="80" width="52" height="8" rx="4" fill="#1b5e8c"/>
+                <rect x="84" y="48" width="142" height="44" rx="6" fill="#f2f7fb" stroke="#d7e3ee"/>
+                <rect x="94" y="58" width="80" height="7" rx="3.5" fill="#cddbe7"/>
+                <rect x="94" y="72" width="110" height="7" rx="3.5" fill="#dbe5ee"/>
+                <rect x="84" y="118" width="24" height="24" rx="12" fill="#1b5e8c"/>
+                <rect x="116" y="122" width="90" height="8" rx="4" fill="#cddbe7"/>
+                <rect x="12" y="112" width="56" height="20" rx="10" fill="#eaf2f8"/>
+                <rect x="12" y="117" width="36" height="8" rx="4" fill="#1b5e8c" opacity=".7"/>
+              </svg>
+            </div>
+            <figcaption>教材内嵌测验 · 即学即练即反馈</figcaption>
+          </figure>
+          <figure class="slide-card">
+            <div class="snap" data-zoom="三维模型展示示意">
+              <svg width="240" height="156" viewBox="0 0 240 156" role="img" aria-label="三维模型展示界面示意图">
+                <rect x="0" y="0" width="240" height="156" rx="8" fill="#fff" stroke="#dfe6ec"/>
+                <rect x="0" y="0" width="240" height="34" rx="8" fill="#16395b"/>
+                <rect x="12" y="11" width="64" height="12" rx="6" fill="#4d7ba6"/>
+                <circle cx="160" cy="70" r="30" fill="#eaf2f8" stroke="#9cc3e2" stroke-width="2"/>
+                <circle cx="160" cy="70" r="18" fill="none" stroke="#1b5e8c" stroke-width="2"/>
+                <path d="M160 70 L160 44 M160 70 L182 62" stroke="#c9a227" stroke-width="2.5" fill="none"/>
+                <rect x="12" y="112" width="60" height="20" rx="10" fill="#eaf2f8"/>
+                <rect x="12" y="117" width="38" height="8" rx="4" fill="#1b5e8c" opacity=".7"/>
+                <rect x="200" y="104" width="28" height="28" rx="6" fill="#c9a227"/>
+                <text x="208" y="122" font-size="14" fill="#fff">3D</text>
+              </svg>
+            </div>
+            <figcaption>三维模型自由缩放 · 结构直观呈现</figcaption>
+          </figure>
+          <figure class="slide-card">
+            <div class="snap" data-zoom="在线批注示意">
+              <svg width="240" height="156" viewBox="0 0 240 156" role="img" aria-label="在线批注功能示意图">
+                <rect x="0" y="0" width="240" height="156" rx="8" fill="#fff" stroke="#dfe6ec"/>
+                <rect x="0" y="0" width="240" height="34" rx="8" fill="#16395b"/>
+                <rect x="12" y="11" width="66" height="12" rx="6" fill="#4d7ba6"/>
+                <rect x="12" y="48" width="216" height="7" rx="3.5" fill="#dde5ec"/>
+                <rect x="12" y="62" width="176" height="7" rx="3.5" fill="#dde5ec"/>
+                <rect x="12" y="76" width="200" height="7" rx="3.5" fill="#dde5ec"/>
+                <rect x="12" y="90" width="150" height="7" rx="3.5" fill="#dde5ec"/>
+                <rect x="168" y="58" width="58" height="44" rx="7" fill="#fdf6e3" stroke="#e8d9a8"/>
+                <rect x="176" y="66" width="34" height="6" rx="3" fill="#d9b64a"/>
+                <rect x="176" y="78" width="42" height="6" rx="3" fill="#ecdda8"/>
+                <rect x="12" y="112" width="56" height="20" rx="10" fill="#eaf2f8"/>
+                <rect x="12" y="117" width="36" height="8" rx="4" fill="#1b5e8c" opacity=".7"/>
+              </svg>
+            </div>
+            <figcaption>在线批注 · 师生互动即时可见</figcaption>
+          </figure>
+          <figure class="slide-card">
+            <div class="snap" data-zoom="学情管理后台示意">
+              <svg width="240" height="156" viewBox="0 0 240 156" role="img" aria-label="学情管理后台示意图">
+                <rect x="0" y="0" width="240" height="156" rx="8" fill="#fff" stroke="#dfe6ec"/>
+                <rect x="0" y="0" width="240" height="34" rx="8" fill="#16395b"/>
+                <rect x="12" y="11" width="76" height="12" rx="6" fill="#4d7ba6"/>
+                <rect x="12" y="50" width="52" height="26" rx="6" fill="#eaf2f8"/>
+                <rect x="18" y="62" width="20" height="7" rx="3.5" fill="#1b5e8c"/>
+                <line x1="14" y1="70" x2="60" y2="70" stroke="#b9cfe0" stroke-width="1"/>
+                <rect x="72" y="50" width="52" height="26" rx="6" fill="#fdf6e3"/>
+                <rect x="78" y="60" width="20" height="7" rx="3.5" fill="#c9a227"/>
+                <line x1="74" y1="70" x2="120" y2="70" stroke="#e2d3a2" stroke-width="1"/>
+                <rect x="132" y="50" width="52" height="26" rx="6" fill="#eaf4ec"/>
+                <rect x="138" y="60" width="20" height="7" rx="3.5" fill="#3c9a5e"/>
+                <rect x="12" y="88" width="172" height="7" rx="3.5" fill="#dde5ec"/>
+                <rect x="12" y="103" width="142" height="7" rx="3.5" fill="#dde5ec"/>
+                <rect x="12" y="118" width="160" height="7" rx="3.5" fill="#dde5ec"/>
+                <rect x="196" y="50" width="30" height="74" rx="6" fill="#16395b"/>
+                <rect x="202" y="70" width="6" height="12" rx="3" fill="#c9a227"/>
+                <rect x="212" y="84" width="6" height="16" rx="3" fill="#4d7ba6"/>
+                <rect x="202" y="96" width="6" height="10" rx="3" fill="#3c9a5e"/>
+              </svg>
+            </div>
+            <figcaption>学情统计面板 · 数据驱动教学决策</figcaption>
+          </figure>
+          <figure class="slide-card">
+            <div class="snap" data-zoom="多端适配示意">
+              <svg width="240" height="156" viewBox="0 0 240 156" role="img" aria-label="多端同步界面示意图">
+                <rect x="0" y="0" width="240" height="156" rx="8" fill="#fff" stroke="#dfe6ec"/>
+                <rect x="8" y="14" width="104" height="70" rx="6" fill="#f2f7fb" stroke="#d7e3ee"/>
+                <rect x="16" y="22" width="46" height="10" rx="5" fill="#16395b"/>
+                <rect x="16" y="40" width="84" height="6" rx="3" fill="#cddbe7"/>
+                <rect x="16" y="54" width="72" height="6" rx="3" fill="#dbe5ee"/>
+                <rect x="16" y="68" width="60" height="8" rx="4" fill="#1b5e8c" opacity=".6"/>
+                <rect x="96" y="14" width="84" height="126" rx="8" fill="#f2f7fb" stroke="#d7e3ee"/>
+                <rect x="104" y="24" width="34" height="9" rx="4.5" fill="#16395b"/>
+                <rect x="104" y="42" width="64" height="6" rx="3" fill="#cddbe7"/>
+                <rect x="104" y="56" width="56" height="6" rx="3" fill="#dbe5ee"/>
+                <path d="M104 74 h64 v40 h-64 z" fill="none" stroke="#1b5e8c" stroke-width="1.5"/>
+                <rect x="104" y="120" width="64" height="12" rx="6" fill="#1b5e8c" opacity=".6"/>
+                <rect x="192" y="46" width="40" height="62" rx="7" fill="#f2f7fb" stroke="#d7e3ee"/>
+                <rect x="196" y="52" width="18" height="5" rx="2.5" fill="#16395b"/>
+                <rect x="196" y="64" width="24" height="5" rx="2.5" fill="#cddbe7"/>
+                <rect x="196" y="88" width="18" height="8" rx="4" fill="#c9a227"/>
+                <path d="M100 14 l36 8" stroke="#c9a227" stroke-width="2" stroke-dasharray="4 3"/>
+                <path d="M92 70 l56 26" stroke="#3c9a5e" stroke-width="2" stroke-dasharray="4 3"/>
+              </svg>
+            </div>
+            <figcaption>电脑 / 平板 / 手机三端自适应</figcaption>
+          </figure>
+        </div>
+        <button class="slide-arrow next" id="slideNext" aria-label="下一组">›</button>
+      </div>
+    </div>
+
+    <!-- 创新亮点 Tab -->
+    <div class="tab-panel" id="tabInnov">
+      <div class="dyn-row">
+        <div class="dyn-item fade">
+          <div class="dyn-ico">
+            <svg viewBox="0 0 74 74" aria-hidden="true">
+              <circle cx="37" cy="37" r="34" fill="#eaf2f8"/>
+              <g class="sync-move">
+                <rect x="16" y="22" width="20" height="30" rx="4" fill="#1b5e8c"/>
+                <rect x="38" y="22" width="20" height="30" rx="4" fill="#4d7ba6"/>
+              </g>
+              <path d="M24 58 c0 4 5 6 13 6" stroke="#c9a227" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              <path d="M24 61 c0 -4 5 -6 13 -6" stroke="#c9a227" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              <circle cx="24" cy="59.5" r="2.6" fill="#c9a227"/>
+            </svg>
+          </div>
+          <h4>多端同步</h4>
+          <p>学习进度与笔记跨设备实时同步，课堂翻转衔接零成本。</p>
+        </div>
+        <div class="dyn-item fade">
+          <div class="dyn-ico">
+            <svg viewBox="0 0 74 74" aria-hidden="true">
+              <circle cx="37" cy="37" r="34" fill="#fdf6e3"/>
+              <circle class="pulse-ring" cx="37" cy="37" r="26" fill="none" stroke="#c9a227" stroke-width="2"/>
+              <circle cx="37" cy="37" r="16" fill="#c9a227"/>
+              <path d="M37 29 a8 8 0 1 1 -5 2.2" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <path d="M37 24 v6 M41.5 26.6 l-3.4 4.9" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h4>内容实时更新</h4>
+          <p>教材内容云端发布，勘误与新增素材无需重印，即改即用。</p>
+        </div>
+        <div class="dyn-item fade">
+          <div class="dyn-ico">
+            <svg viewBox="0 0 74 74" aria-hidden="true">
+              <circle cx="37" cy="37" r="34" fill="#eaf4ec"/>
+              <rect class="grow-bar" x="20" y="38" width="8" height="20" rx="3" fill="#3c9a5e" style="animation-delay:.1s"/>
+              <rect class="grow-bar" x="33" y="30" width="8" height="28" rx="3" fill="#1b5e8c" style="animation-delay:.3s"/>
+              <rect class="grow-bar" x="46" y="24" width="8" height="34" rx="3" fill="#c9a227" style="animation-delay:.5s"/>
+              <line x1="18" y1="58" x2="58" y2="58" stroke="#8fb8a0" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <h4>学情数据采集</h4>
+          <p>学习时长、交互作答等数据自动沉淀，形成班级学情画像。</p>
+        </div>
+      </div>
+      <div class="dyn-row fade" style="margin-top:12px">
+        <div class="dyn-item">
+          <div class="dyn-ico">
+            <svg viewBox="0 0 74 74" aria-hidden="true">
+              <circle cx="37" cy="37" r="34" fill="#f6ebf1"/>
+              <path d="M24 30 h26 v20 h-26 z" fill="none" stroke="#b5528f" stroke-width="2.5"/>
+              <path d="M30 30 v-5 a7 7 0 0 1 14 0 v5" fill="none" stroke="#b5528f" stroke-width="2.5"/>
+              <circle cx="37" cy="40" r="3" fill="#b5528f"/>
+              <path d="M33 49 q4 -6 8 0" stroke="#b5528f" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h4>版权与隐私保护</h4>
+          <p>资源权限分级管控，师生数据脱敏留存，符合高校数据安全要求。</p>
+        </div>
+        <div class="dyn-item">
+          <div class="dyn-ico">
+            <svg viewBox="0 0 74 74" aria-hidden="true">
+              <circle cx="37" cy="37" r="34" fill="#edf1fa"/>
+              <path d="M22 44 l9 -12 8 6 9 -12 6 8" stroke="#4a67b3" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="20" y1="50" x2="56" y2="50" stroke="#4a67b3" stroke-width="2"/>
+            </svg>
+          </div>
+          <h4>教学行为分析</h4>
+          <p>基于交互记录的教学分析报告，辅助教学复盘与课堂改进。</p>
+        </div>
+        <div class="dyn-item">
+          <div class="dyn-ico">
+            <svg viewBox="0 0 74 74" aria-hidden="true">
+              <circle cx="37" cy="37" r="34" fill="#f2efe9"/>
+              <circle cx="37" cy="31" r="9" fill="#8a6d3b"/>
+              <rect x="29" y="40" width="16" height="14" rx="3" fill="#b08d4d"/>
+              <rect x="31" y="34" width="4" height="10" fill="#8a6d3b"/>
+              <rect x="39" y="34" width="4" height="10" fill="#8a6d3b"/>
+              <circle cx="34" cy="29" r="1.6" fill="#fff"/>
+              <circle cx="40" cy="29" r="1.6" fill="#fff"/>
+              <rect x="25" y="46" width="4" height="12" rx="2" fill="#a58a55"/>
+              <rect x="45" y="46" width="4" height="12" rx="2" fill="#a58a55"/>
+            </svg>
+          </div>
+          <h4>课程共建共享</h4>
+          <p>校际课程资源共建机制，助力区域高校优质资源协同发展。</p>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:34px" class="fade">
+        <a class="btn btn-primary" href="javascript:void(0)" onclick="openAppointment()">申请体验交互功能 &#8250;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 板块3：案例视频 + 数字资源库（合并板块） ============ -->
+<section class="section" id="cases">
+  <div class="container">
+    <div class="section-head fade">
+      <span class="section-kicker">CASE LIBRARY</span>
+      <h2 class="section-title">案例视频 · 数字资源库</h2>
+      <p class="section-sub">从 MG 动画到数字人微课，再到国家一流虚拟仿真课程，看小核桃如何让数字教材在不同学科真实落地。</p>
+      <div class="divider"></div>
+    </div>
+    <div class="res-toolbar fade">
+      <div class="res-filters" id="resFilters"></div>
+      <div class="res-search"><input id="resSearch" type="search" placeholder="搜索案例关键词…" aria-label="搜索案例"></div>
+    </div>
+    <div class="case-grid fade" id="caseGrid"></div>
+    <div class="res-empty" id="resEmpty">未找到匹配的案例，试试更换关键词或分类。</div>
+    <div class="res-more fade">
+      <p>想探索更多虚拟仿真、数字人微课与 MG 动画资源？</p>
+      <a class="btn btn-primary" id="virtualLink" href="javascript:void(0)" onclick="openVirtual()">进入虚仿资源官方平台 ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 板块4：行业解决方案 ============ -->
+<section class="section section-gray" id="solution">
+  <div class="container">
+    <div class="section-head fade">
+      <span class="section-kicker">SOLUTIONS</span>
+      <h2 class="section-title">面向高校的数字教材建设解决方案</h2>
+      <p class="section-sub">从单门课程到院系资源池，从智慧课堂到混合式教学，小核桃提供按需组合的定制化服务。</p>
+      <div class="divider"></div>
+    </div>
+
+    <div class="sec-tabs fade" id="solTabs">
+      <button class="sec-tab active" data-tab="solSmart">智慧课堂整体方案</button>
+      <button class="sec-tab" data-tab="solDept">院系资源定制方案</button>
+      <button class="sec-tab" data-tab="solBlend">混合式课程配套方案</button>
+    </div>
+
+    <div class="sol-grid">
+      <div>
+        <!-- 方案一 -->
+        <div class="tab-panel active" id="solSmart">
+          <div class="sol-panel fade">
+            <h3>智慧课堂整体方案 <span class="sol-tag">整体部署</span></h3>
+            <p class="sol-intro">以数字教材为教学基座，打通课前预习、课中互动、课后巩固与教学评价全环节，构建可持续运营的智慧教学环境。</p>
+            <div class="sol-feats">
+              <div class="sol-feat"><b>硬件利旧：</b>兼容现有多媒体教室与移动终端，无需重复投入。</div>
+              <div class="sol-feat"><b>一体化平台：</b>教材管理、课堂互动、学情分析统一入口。</div>
+              <div class="sol-feat"><b>全校协同：</b>支持教务处统一排课、建课与质量监控。</div>
+              <div class="sol-feat"><b>持续升级：</b>交互组件与资源库按学期迭代扩充。</div>
+            </div>
+            <div class="flow">
+              <div class="flow-node">
+                <div class="flow-dot">1</div>
+                <span class="f-label">需求调研</span>
+                <span class="f-sub">课程摸底</span>
+                <div class="flow-pop"><b>需求调研</b>调研教务处与院系教学现状，梳理课程清单、教材形态与数字化基础，形成建设方案建议书。</div>
+              </div>
+              <div class="flow-node">
+                <div class="flow-dot">2</div>
+                <span class="f-label">教材建设</span>
+                <span class="f-sub">内容生产</span>
+                <div class="flow-pop"><b>教材建设</b>基于原版教材完成数字化加工，配置测验、模型、批注等交互组件，经三审三校后上线。</div>
+              </div>
+              <div class="flow-node">
+                <div class="flow-dot">3</div>
+                <span class="f-label">试点授课</span>
+                <span class="f-sub">小班试讲</span>
+                <div class="flow-pop"><b>试点授课</b>选取试点班级开展实战教学，收集师生使用反馈，打磨课堂互动流程与学情报表口径。</div>
+              </div>
+              <div class="flow-node">
+                <div class="flow-dot">4</div>
+                <span class="f-label">全校推广</span>
+                <span class="f-sub">规模化落地</span>
+                <div class="flow-pop"><b>全校推广</b>面向全校多学院批量开课，配套教师培训、教学沙龙与运营支持，形成制度化应用。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 方案二 -->
+        <div class="tab-panel" id="solDept">
+          <div class="sol-panel fade">
+            <h3>院系资源定制方案 <span class="sol-tag">按需定制</span></h3>
+            <p class="sol-intro">围绕院系学科特色与教师内容资产，以「共建共享」模式定制院级数字资源池，支撑专业课程集群建设。</p>
+            <div class="sol-feats">
+              <div class="sol-feat"><b>学科适配：</b>按专业集群定制教材模板与交互组件。</div>
+              <div class="sol-feat"><b>版权清晰：</b>教师原创内容版权归属明确，共建共享有据可依。</div>
+              <div class="sol-feat"><b>资源沉淀：</b>教案、试题、微课统一入库，院系资产持续积累。</div>
+              <div class="sol-feat"><b>快速上架：</b>标准化加工流水线，缩短建课周期。</div>
+            </div>
+            <div class="flow">
+              <div class="flow-node">
+                <div class="flow-dot">1</div>
+                <span class="f-label">学科梳理</span>
+                <span class="f-sub">资源盘点</span>
+                <div class="flow-pop"><b>学科梳理</b>盘点院系课程体系与现有教学资源，确定优先建设的课程集群与教材清单。</div>
+              </div>
+              <div class="flow-node">
+                <div class="flow-dot">2</div>
+                <span class="f-label">模板定制</span>
+                <span class="f-sub">风格与组件</span>
+                <div class="flow-pop"><b>模板定制</b>结合学科特色设计教材模板、视觉风格与交互组件组合，统一院系数字教材标准。</div>
+              </div>
+              <div class="flow-node">
+                <div class="flow-dot">3</div>
+                <span class="f-label">内容加工</span>
+                <span class="f-sub">共建生产</span>
+                <div class="flow-pop"><b>内容加工</b>组织教师共建内容，加工团队完成排版、交互配置与质检，边建边审边上架。</div>
+              </div>
+              <div class="flow-node">
+                <div class="flow-dot">4</div>
+                <span class="f-label">常态运营</span>
+                <span class="f-sub">迭代更新</span>
+                <div class="flow-pop"><b>常态运营</b>建立院系管理员机制，学科新素材按学期持续入库，资源池滚动更新。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 方案三 -->
+        <div class="tab-panel" id="solBlend">
+          <div class="sol-panel fade">
+            <h3>混合式课程配套方案 <span class="sol-tag">课程配套</span></h3>
+            <p class="sol-intro">为线上线下一体化课程提供随堂配套数字教材与学习数据支撑，让混合式教学有据可依、有迹可循。</p>
+            <div class="sol-feats">
+              <div class="sol-feat"><b>线上线下同构：</b>线上自学章节与线下课堂内容一一映射。</div>
+              <div class="sol-feat"><b>过程性评价：</b>基于学习行为数据生成过程性学习档案。</div>
+              <div class="sol-feat"><b>翻转课堂：</b>内置课前任务包与课堂讨论议题库。</div>
+              <div class="sol-feat"><b>学情看板：</b>班级整体与个体学情双视角统计。</div>
+            </div>
+            <div class="flow">
+              <div class="flow-node">
+                <div class="flow-dot">1</div>
+                <span class="f-label">课程设计</span>
+                <span class="f-sub">目标拆分</span>
+                <div class="flow-pop"><b>课程设计</b>协同教师拆分课程目标，规划线上自学任务与线下课堂翻转路径。</div>
+              </div>
+              <div class="flow-node">
+                <div class="flow-dot">2</div>
+                <span class="f-label">任务配置</span>
+                <span class="f-sub">课前发布</span>
+                <div class="flow-pop"><b>任务配置</b>在教材中配置课前测验、视频预习与讨论议题，设定完成时间节点。</div>
+              </div>
+              <div class="flow-node">
+                <div class="flow-dot">3</div>
+                <span class="f-label">数据回流</span>
+                <span class="f-sub">学情采集</span>
+                <div class="flow-pop"><b>数据回流</b>学生自学与互动数据实时回流，教师课前即可掌握预习薄弱点。</div>
+              </div>
+              <div class="flow-node">
+                <div class="flow-dot">4</div>
+                <span class="f-label">教学闭环</span>
+                <span class="f-sub">评价优化</span>
+                <div class="flow-pop"><b>教学闭环</b>结合过程性档案开展教学复盘，持续优化内容与任务设计，形成正向循环。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 部署架构简图 -->
+      <div class="arch fade">
+        <h3>平台整体部署架构</h3>
+        <p class="a-sub">私有化 / 公有云 / 混合部署，按高校信息化条件灵活适配（示意）</p>
+        <div class="arch-layer">
+          <h5>🖥️ 应用层</h5>
+          <div class="arch-tags"><i>数字教材门户</i><i>课堂教学互动</i><i>学情管理后台</i><i>教师工作台</i></div>
+        </div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer">
+          <h5>🧩 平台层</h5>
+          <div class="arch-tags"><i>内容管理</i><i>用户与权限</i><i>数据采集</i><i>开放接口</i></div>
+        </div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer">
+          <h5>📦 资源层</h5>
+          <div class="arch-tags"><i>数字教材资源库</i><i>媒体服务</i><i>题库与组件库</i><i>虚拟仿真资源</i></div>
+        </div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer red">
+          <h5>🛡️ 基础设施与安全</h5>
+          <div class="arch-tags"><i>校园网 / 云主机</i><i>等保合规</i><i>数据脱敏</i><i>灾备与审计</i></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ext-link-row fade">
+      <p>想了解平台全貌与更多建设案例？欢迎访问小核桃数字教材官方平台。</p>
+      <a class="btn btn-primary" href="javascript:void(0)" onclick="openOfficial()">访问官方平台网站 ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 板块5：联系我们 & 合作咨询 ============ -->
+<section class="section" id="contact">
+  <div class="container">
+    <div class="section-head fade">
+      <span class="section-kicker">CONTACT US</span>
+      <h2 class="section-title">申请产品演示 · 商务合作咨询</h2>
+      <p class="section-sub">欢迎高校教务处、院系老师咨询洽谈，我们将在 1 个工作日内与您联系。</p>
+      <div class="divider"></div>
+    </div>
+    <div class="contact-wrap">
+      <div class="contact-left fade">
+        <h3>开启高校数字化转型合作</h3>
+        <p>无论是单门课程的数字教材化改造，还是全校范围的数字教材体系规划，小核桃都有一线团队与成熟方法论为您保驾护航。留下联系方式，我们为您安排专属演示与方案交流。</p>
+        <div class="contact-ways">
+          <div class="contact-way">
+            <span class="cw-ico">🏫</span>
+            <div><b>适用对象</b><span>高校教务处、学院教学办、课程负责人</span></div>
+          </div>
+          <div class="contact-way">
+            <span class="cw-ico">📞</span>
+            <div><b>咨询电话</b><span id="contactPhone">0791-86800000（示例号码，上线前替换）</span></div>
+          </div>
+          <div class="contact-way">
+            <span class="cw-ico">⏱️</span>
+            <div><b>服务时间</b><span>工作日 9:00 – 18:00</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="qr-box fade">
+        <div class="qr-holder" id="qrHolder">
+          <svg width="210" height="210" viewBox="0 0 210 210" role="img" aria-label="商务微信二维码占位图">
+            <rect width="210" height="210" fill="#fff"/>
+            <g fill="#10263b">
+              <rect x="16" y="16" width="52" height="52"/><rect x="142" y="16" width="52" height="52"/>
+              <rect x="16" y="142" width="52" height="52"/><rect x="126" y="142" width="20" height="20"/>
+              <rect x="150" y="142" width="44" height="20"/><rect x="126" y="166" width="20" height="44"/>
+              <rect x="44" y="44" width="10" height="10"/><rect x="20" y="20" width="10" height="10"/>
+              <rect x="70" y="20" width="20" height="10"/><rect x="20" y="70" width="10" height="20"/>
+              <rect x="150" y="44" width="10" height="10"/><rect x="170" y="20" width="20" height="10"/>
+              <rect x="190" y="20" width="10" height="40"/><rect x="20" y="150" width="10" height="20"/>
+              <rect x="44" y="150" width="10" height="10"/><rect x="70" y="150" width="20" height="10"/>
+              <rect x="20" y="190" width="40" height="20"/><rect x="70" y="180" width="10" height="30"/>
+              <rect x="44" y="180" width="10" height="30"/>
+              <rect x="94" y="18" width="14" height="14"/><rect x="112" y="18" width="14" height="14"/>
+              <rect x="94" y="36" width="14" height="14"/><rect x="112" y="36" width="14" height="14"/>
+              <rect x="94" y="94" width="14" height="14"/><rect x="112" y="94" width="14" height="14"/>
+              <rect x="94" y="112" width="14" height="14"/><rect x="112" y="112" width="14" height="14"/>
+              <rect x="94" y="150" width="14" height="14"/><rect x="112" y="150" width="14" height="14"/>
+              <rect x="94" y="168" width="14" height="14"/><rect x="112" y="168" width="14" height="14"/>
+              <rect x="94" y="186" width="14" height="14"/><rect x="112" y="186" width="14" height="14"/>
+              <rect x="148" y="74" width="10" height="10"/><rect x="162" y="74" width="24" height="10"/>
+              <rect x="190" y="74" width="10" height="24"/><rect x="74" y="96" width="10" height="10"/>
+              <rect x="128" y="74" width="10" height="10"/><rect x="148" y="96" width="10" height="10"/>
+              <rect x="196" y="96" width="10" height="10"/><rect x="74" y="126" width="10" height="10"/>
+              <rect x="144" y="110" width="10" height="10"/><rect x="158" y="110" width="28" height="10"/>
+              <rect x="190" y="124" width="10" height="24"/><rect x="150" y="124" width="20" height="10"/>
+              <rect x="128" y="138" width="12" height="12"/><rect x="178" y="168" width="10" height="10"/>
+              <rect x="168" y="182" width="10" height="24"/><rect x="132" y="180" width="16" height="24"/>
+            </g>
+          </svg>
+          <div class="qr-tip">示例二维码 · 上线前替换为商务微信码</div>
+        </div>
+        <h4>扫码对接，预约数字教材产品演示</h4>
+        <p>欢迎高校教务处、院系老师咨询洽谈<br>产品演示 · 方案交流 · 合作洽谈</p>
+        <div class="qr-note">如有批量课程建设需求，可联系商务团队获取专属方案书。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 页脚 ============ -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <a class="brand" href="#top"><span class="logo-dot">核</span><span>小核桃数字教材</span></a>
+    <div class="footer-links">
+      <a href="#policy">政策导向</a>
+      <a href="#advantage">核心优势</a>
+      <a href="#cases">案例资源</a>
+      <a href="#solution">解决方案</a>
+      <a href="#contact">联系我们</a>
+    </div>
+    <div class="footer-copy">© <span id="year"></span> 小核桃数字教材 · 高校教育数字化转型整体解决方案提供商&nbsp;&nbsp;|&nbsp;&nbsp;本页面为宣传展示用途</div>
+  </div>
+</footer>
+
+<!-- ============ 悬浮预约按钮 ============ -->
+<button class="fab" onclick="openAppointment()"><span class="fab-ico">📅</span> 预约演示</button>
+
+<!-- ============ 通用弹窗（政策详情 / 截图预览 / 案例视频） ============ -->
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" onclick="overlayBackdrop(event)">
+  <div class="modal" id="modal">
+    <div class="modal-head">
+      <h3 id="modalTitle">详情</h3>
+      <button class="modal-close" onclick="closeModal()" aria-label="关闭">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ============ 预约表单弹窗 ============ -->
+<div class="overlay" id="apptOverlay" role="dialog" aria-modal="true" onclick="overlayBackdrop(event)">
+  <div class="modal form-modal" id="apptModal">
+    <div class="modal-head">
+      <h3>预约产品演示</h3>
+      <button class="modal-close" onclick="closeAppt()" aria-label="关闭">✕</button>
+    </div>
+    <div class="modal-body" id="apptBody" style="grid-template-columns:1fr">
+      <form id="apptForm" onsubmit="submitAppt(event)">
+        <div class="form-row">
+          <label for="fName">您的称呼 *</label>
+          <input id="fName" type="text" placeholder="例如：张老师" required>
+        </div>
+        <div class="form-row">
+          <label for="fOrg">所在院校 / 单位</label>
+          <input id="fOrg" type="text" placeholder="例如：XX大学 教务处">
+        </div>
+        <div class="form-row">
+          <label for="fPhone">联系电话 *</label>
+          <input id="fPhone" type="tel" placeholder="手机或座机" required>
+        </div>
+        <div class="form-row">
+          <label for="fNeed">咨询需求</label>
+          <textarea id="fNeed" placeholder="例如：希望了解数字教材建设方案 / 预约产品演示"></textarea>
+        </div>
+        <button class="form-submit" type="submit">提交预约申请</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+ * 小核桃数字教材 · 宣传单页 交互逻辑
+ * =========================================================
+ * ▲▲▲ 上线前请核对下列「外部资源配置」▲▲▲
+ *  VIRTUAL_PLATFORM_URL  板块3底部「虚仿资源官方平台」跳转地址
+ *  OFFICIAL_URL          板块4底部「官方平台网站」跳转地址
+ *  PHONE                板块5展示的咨询电话
+ *  商务微信二维码        板块5 qr-holder 中的 SVG 为占位图，
+ *                       上线前替换为真实二维码图片即可
+ * ========================================================= */
+
+var CONFIG = {
+  VIRTUAL_PLATFORM_URL: 'https://wecandoeverythingjustkeepwatching.github.io/xiaohetao/',
+  OFFICIAL_URL:         'https://wecandoeverythingjustkeepwatching.github.io/xiaohetao/',
+  PHONE:                '0791-86800000'
+};
+
+function openVirtual() { window.open(CONFIG.VIRTUAL_PLATFORM_URL, '_blank', 'noopener'); }
+function openOfficial() { window.open(CONFIG.OFFICIAL_URL, '_blank', 'noopener'); }
+document.getElementById('contactPhone').textContent = CONFIG.PHONE;
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ============ 板块1：政策数据 ============ */
+var POLICY_LEVELS = ['国家级政策', '江西省省级文件', '行业指导意见'];
+
+var POLICIES = [
+  {
+    level: '国家级政策',
+    title: '教育部关于印发《教育信息化2.0行动计划》的通知',
+    dept: '教育部',
+    docNo: '教技〔2018〕6号',
+    date: '2018年4月',
+    summary: '提出构建"互联网+教育"大平台，数字教育资源共享成为基本公共服务。',
+    desc: '《教育信息化2.0行动计划》将教育信息化作为教育系统性变革的内生变量，提出实施数字资源服务普及行动、网络学习空间覆盖行动等八大行动，推动数字教育资源从"专网专用"走向"共建共享"，为高校开展数字化教材与教学资源建设提供了顶层依据。',
+    officialUrl: 'http://www.moe.gov.cn/srcsite/A16/s3342/201804/t20180425_334188.html',
+    isPlaceholder: false
+  },
+  {
+    level: '国家级政策',
+    title: '教育部关于发布《高等学校数字校园建设规范（试行）》的通知',
+    dept: '教育部',
+    docNo: '教科信函〔2021〕14号',
+    date: '2021年3月',
+    summary: '数字化教学资源建设与数字校园基础设施有了统一的国标级规范。',
+    desc: '《高等学校数字校园建设规范（试行）》面向高校数字校园建设提出了总体要求、主要组成与建设流程，其中"信息资源—数字化教学资源"章节直接规范了数字教材、网络课程、虚拟实验等资源的建设与应用要求，是高校引进数字教材平台的重要参照标准。',
+    officialUrl: 'http://www.moe.gov.cn/srcsite/A16/s3342/202103/t20210322_521675.html',
+    isPlaceholder: false
+  },
+  {
+    level: '国家级政策',
+    title: '教育部办公厅关于印发《国家智慧教育平台数字教育资源内容审核规范（试行）》的通知',
+    dept: '教育部办公厅',
+    docNo: '教技厅函〔2022〕2号',
+    date: '2022年5月',
+    summary: '数字教育资源的"上线必审、更新必审"为教材内容安全立下硬规矩。',
+    desc: '该规范建立了数字教育资源内容审核的责任体系与审核规程，明确"谁主管谁负责、谁上线谁负责"原则，覆盖网络课程、数字教材、虚拟实验等各类资源。小核桃内容生产流程即按"三审三校"标准执行，与规范要求对齐。',
+    officialUrl: 'http://www.moe.gov.cn/srcsite/A16/s3342/202211/t20221108_979699.html',
+    isPlaceholder: false
+  },
+  {
+    level: '国家级政策',
+    title: '教育部等九部门《关于加快推进教育数字化的意见》',
+    dept: '教育部等九部门',
+    docNo: '发布会解读',
+    date: '2025年4月',
+    summary: '对推进教育数字化进行全面部署，明确数字教材建设与应用的深化方向。',
+    desc: '《意见》在总结国家教育数字化战略行动实施经验基础上，对未来一个阶段推进教育数字化作出全面部署，强调教育数字化是新赛道、新优势的重要突破口。教育部新闻发布会同步对《意见》进行了权威解读（本卡片链接为该发布会的官方实录页面）。',
+    officialUrl: 'http://www.moe.gov.cn/fbh/live/2025/56808/twwd/202504/t20250416_1187611.html',
+    isPlaceholder: false
+  },
+  {
+    level: '江西省省级文件',
+    title: '江西省推进教育数字化、深化高校教育教学改革相关政策文件（示例）',
+    dept: '江西省教育厅',
+    docNo: '文号待核',
+    date: '以正式文件为准',
+    summary: '江西省省级数字教材与智慧教学建设要求（示例文案，上线前替换为正式文件）。',
+    desc: '【示例占位卡片】此处展示江西省教育厅关于高等教育数字化、数字教育资源建设等方面的省级政策文件截图与要点摘编。请用贵省正式政策文件（含发文文号、发布时间与原文链接）替换本条内容，并完成敏感信息脱敏处理。',
+    officialUrl: 'https://jyt.jiangxi.gov.cn/',
+    isPlaceholder: true
+  },
+  {
+    level: '行业指导意见',
+    title: '高等教育数字化行业简报 · 数字教材应用趋势摘编（示例）',
+    dept: '行业研究简报',
+    docNo: '简讯编号待填',
+    date: '以简报为准',
+    summary: '行业简报摘要：数字教材从"纸质电子化"迈向"交互化、数据化"的必然趋势。',
+    desc: '【示例占位卡片】此处展示高等教育数字化相关的行业研讨会简报、指导性文件或权威媒体综述的截图摘要。请替换为实际简报/指导意见的正式截图，并标注来源刊物、期号与发布日期。',
+    officialUrl: 'javascript:void(0)',
+    isPlaceholder: true
+  }
+];
+
+/* ============ 板块1：政策渲染与交互 ============ */
+var policyActive = '国家级政策';
+
+function renderPolicyTabs() {
+  var tabs = POLICY_LEVELS.map(function (lv) {
+    var count = POLICIES.filter(function (p) { return p.level === lv; }).length;
+    return '<button class="policy-tab' + (lv === policyActive ? ' active' : '') + '" data-level="' + lv + '">' +
+      lv + ' <span style="opacity:.65">(' + count + ')</span></button>';
+  }).join('');
+  document.getElementById('policyTabs').innerHTML = tabs;
+  document.querySelectorAll('#policyTabs .policy-tab').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      policyActive = btn.getAttribute('data-level');
+      renderPolicyTabs();
+      renderPolicyGrid();
+      revealFade(btn);
+    });
+  });
+}
+
+function renderPolicyGrid() {
+  var list = POLICIES.filter(function (p) { return p.level === policyActive; });
+  document.getElementById('policyGrid').innerHTML = list.map(function (p, i) {
+    var badgeTxt = p.isPlaceholder ? '示例占位 · 待替换' : '官方文件';
+    return '<article class="policy-card fade in" data-index="' + i + '" tabindex="0" role="button" aria-label="' + p.title + '">' +
+      '<div class="shot">' +
+        '<span class="badge">' + badgeTxt + '</span>' +
+        (p.level === '国家级政策'
+          ? '<div class="doc-shot"><div class="red"></div><div class="doc-title">' + p.title.replace('教育部关于印发', '').replace('的通知', '') + '</div><div class="doc-no">' + p.docNo + '</div><div class="doc-body"><i class="w70"></i><i class="w55"></i><i class="w80"></i><i class="w70"></i><i class="w60"></i></div><div class="stamp"></div></div>'
+          : '<div class="doc-shot long"><div class="red"></div><div class="doc-title">政策文件截图<br>（示例）</div><div class="doc-no">' + p.docNo + '</div><div class="doc-body"><i class="w70"></i><i class="w55"></i><i class="w80"></i><i class="w70"></i><i class="w60"></i></div><div class="stamp"></div></div>') +
+        '<div class="mask">💡 ' + p.summary + '</div>' +
+      '</div>' +
+      '<div class="info">' +
+        '<h3>' + p.title + '</h3>' +
+        '<div class="meta"><span class="dept">' + p.dept + ' · ' + p.docNo + '</span><span class="more">点击查看详情 →</span></div>' +
+      '</div>' +
+    '</article>';
+  }).join('');
+  document.querySelectorAll('#policyGrid .policy-card').forEach(function (card) {
+    card.addEventListener('click', function () {
+      var p = POLICIES.filter(function (x) { return x.level === policyActive; })[card.getAttribute('data-index')];
+      openPolicyModal(p);
+    });
+    card.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
+    });
+  });
+}
+
+function openPolicyModal(p) {
+  document.getElementById('modalTitle').textContent = p.level;
+  var shotHtml = p.level === '国家级政策'
+    ? '<div style="text-align:center"><div class="doc-shot" style="max-width:340px;padding:26px 22px"><div class="red" style="height:8px"></div><div class="doc-title" style="font-size:14px">' + p.title + '</div><div class="doc-no">' + p.docNo + '</div><div class="doc-body" style="gap:8px"><i style="height:6px"></i><i style="height:6px" class="w70"></i><i style="height:6px" class="w55"></i><i style="height:6px" class="w80"></i><i style="height:6px" class="w70"></i><i style="height:6px" class="w60"></i></div></div><div style="font-size:12px;color:#9aa7b1;margin-top:12px">政策文件截图（示意）· 点击下方链接查看官方原文</div></div>'
+    : '<div style="text-align:center"><div class="doc-shot" style="max-width:300px;padding:24px 20px"><div class="red"></div><div class="doc-title">' + p.title + '</div><div class="doc-no">' + p.docNo + '</div><div class="doc-body" style="gap:8px"><i style="height:6px"></i><i style="height:6px" class="w70"></i><i style="height:6px" class="w55"></i><i style="height:6px" class="w80"></i></div></div><div style="font-size:12px;color:#9aa7b1;margin-top:12px">' + (p.isPlaceholder ? '占位截图 · 上线前替换为正式政策文件截图（脱敏）' : '政策文件截图（示意）') + '</div></div>';
+  document.getElementById('modalBody').innerHTML =
+    '<div class="modal-shot">' + shotHtml + '</div>' +
+    '<div class="modal-info">' +
+      '<h4>' + p.title + '</h4>' +
+      '<div class="m-meta">' + p.dept + ' · ' + p.docNo + ' · ' + p.date + '</div>' +
+      '<p>《' + p.title.split('》')[0].replace(/^.*《/, '') + '》' + (p.desc || '') + '</p>' +
+      (p.isPlaceholder
+        ? '<div class="note">⚠️ 本卡片为示例占位内容，正文解读为演示文案。上线前请替换为正式政策文件文本、脱敏截图与官方下载链接。</div>'
+        : '<div class="note">📌 政策原文以发文部门官方发布为准。点击下方按钮在新窗口打开官方原文页面（可查看、打印或另存为 PDF）。</div>') +
+      '<a class="modal-dl" href="' + (p.isPlaceholder && p.officialUrl.indexOf('http') !== 0 ? 'javascript:void(0)' : p.officialUrl) + '" ' + (p.officialUrl.indexOf('http') === 0 ? 'target="_blank" rel="noopener"' : '') + '>' + (p.isPlaceholder ? '查看来源（示例）' : '查看 / 下载政策原文 ↗') + '</a>' +
+    '</div>';
+  openOverlay('overlay');
+}
+
+/* ============ 板块2：优势 / 创新 Tab ============ */
+function initSecTabs() {
+  document.querySelectorAll('[id$="Tabs"] .sec-tab').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var wrap = btn.parentElement;
+      wrap.querySelectorAll('.sec-tab').forEach(function (t) { t.classList.remove('active'); });
+      btn.classList.add('active');
+      var target = document.getElementById(btn.getAttribute('data-tab'));
+      if (target) {
+        var group = target.parentElement;
+        group.querySelectorAll('.tab-panel').forEach(function (p) { p.classList.remove('active'); });
+        target.classList.add('active');
+      }
+    });
+  });
+}
+
+/* ============ 板块2：截图缩放预览 ============ */
+var zoomIdx = 0;
+function initSlides() {
+  var track = document.getElementById('slideTrack');
+  if (!track) return;
+  var cards = track.querySelectorAll('.slide-card');
+  cards.forEach(function (card, i) {
+    card.addEventListener('click', function () {
+      var snap = card.querySelector('.snap');
+      zoomIdx = i;
+      openZoomModal(snap, cards);
+    });
+  });
+  var prev = document.getElementById('slidePrev');
+  var next = document.getElementById('slideNext');
+  if (prev && next) {
+    prev.addEventListener('click', function () { track.scrollBy({ left: -322, behavior: 'smooth' }); });
+    next.addEventListener('click', function () { track.scrollBy({ left: 322, behavior: 'smooth' }); });
+  }
+}
+function openZoomModal(snap, cards) {
+  var label = snap.getAttribute('data-zoom') || '产品界面';
+  var svgHtml = snap.querySelector('svg') ? snap.querySelector('svg').outerHTML : '';
+  document.getElementById('modalTitle').textContent = '截图预览 · ' + label;
+  document.getElementById('modalBody').className = 'modal-body';
+  var body = document.getElementById('modalBody');
+  body.innerHTML = '<div class="modal-shot" style="min-height:380px;align-items:center">' +
+      '<div style="transform:scale(1.35)">' + svgHtml + '</div>' +
+    '</div>' +
+    '<div class="modal-info">' +
+      '<h4>' + label + '</h4>' +
+      '<div class="m-meta">界面示意图</div>' +
+      '<p>本图为产品界面示意（SVG 绘制），用于展示交互形态与信息布局。上线前可替换为真实产品截图。</p>' +
+      '<div class="note">📌 如需替换：将 <code>slide-card .snap</code> 中的 SVG 换成 <code>&lt;img src="真实截图.png"&gt;</code> 即可。</div>' +
+      '<div style="display:flex;gap:10px;flex-wrap:wrap">' +
+        '<button class="modal-dl" onclick="zoomPrev()">‹ 上一张</button>' +
+        '<button class="modal-dl" onclick="zoomNext()">下一张 ›</button>' +
+      '</div>' +
+    '</div>';
+  window.__zoomCards = cards;
+  openOverlay('overlay');
+}
+function zoomPrev() {
+  if (!window.__zoomCards) return;
+  var cards = window.__zoomCards;
+  zoomIdx = (zoomIdx - 1 + cards.length) % cards.length;
+  openZoomModal(cards[zoomIdx].querySelector('.snap'), cards);
+}
+function zoomNext() {
+  if (!window.__zoomCards) return;
+  var cards = window.__zoomCards;
+  zoomIdx = (zoomIdx + 1) % cards.length;
+  openZoomModal(cards[zoomIdx].querySelector('.snap'), cards);
+}
+
+/* ============ 板块3：案例库数据（复用线上案例库） ============ */
+var CASES = [
+  { id: 'mg-01', title: '九类支付结算方式辨析 · MG动画', category: 'MG动画', tags: ['财经', '支付结算'],
+    summary: '用 MG 动画还原真实生意场景，把九种支付结算方式讲清楚。',
+    cover: 'covers/cover1.jpg', video: 'videos/video1.mp4',
+    desc: '以鲜果店等日常经营场景切入，用 MG 动画逐一对比现金、支票、银行汇票等九类支付结算方式，让财经类知识从抽象条文变成可见、可类比的操作流程。' },
+  { id: 'mg-02', title: '存货发出计价的四种方法 · MG动画', category: 'MG动画', tags: ['会计', '存货计价'],
+    summary: 'MG 动画拆解先进先出、加权平均等四种存货发出计价方法。',
+    cover: 'covers/cover2.jpg', video: 'videos/video2.mp4',
+    desc: '围绕实际成本法下存货发出的四种计价方法，结合奶茶店进货等生活案例做动画演示，把难点公式化繁为简，适合会计课堂导入与巩固。' },
+  { id: 'dh-01', title: '医学人文导论 · 数字人微课（熊柱凤）', category: '数字人微课', tags: ['医学人文', '南昌大学'],
+    summary: '南昌大学数字人主讲《医学人文导论》，让人文照亮医路。',
+    cover: 'covers/cover5.jpg', video: 'videos/video5.mp4',
+    desc: '南昌大学《医学人文导论》数字人微课，主讲教师熊柱凤。课程以真实医患、志愿服务等场景切入，在数字人讲解中融入医学伦理与人文关怀，适合医学院人文素养课程导入。' },
+  { id: 'dh-02', title: '移动通信系统概述 · 数字人微课（刘裔文）', category: '数字人微课', tags: ['通信', '移动通信', '上饶师范学院'],
+    summary: '上饶师范学院数字人主讲移动通信发展趋势，从 5G 到 6G 系统概览。',
+    cover: 'covers/cover6.jpg', video: 'videos/video6.mp4',
+    desc: '上饶师范学院课程，数字人讲师刘裔文主讲《移动通信系统概述》，梳理移动通信发展历程，展望 5G/6G 技术趋势与万物智联应用场景，适合通信类专业导论与拓展学习。' },
+  { id: 'vr-01', title: '【国家一流课程】飞机机身面型三维数字化测量虚拟仿真实验', category: 'VR虚拟仿真', tags: ['国家一流课程', '航空制造'],
+    summary: '国家一流课程：虚拟仿真飞机机身三维数字化测量，掌握精密检测全流程。',
+    cover: 'covers/cover-vr-06.jpg', video: 'videos/vr-06.mp4', pinned: true,
+    desc: '国家一流课程。以虚拟仿真还原飞机机身面型三维数字化测量全过程，覆盖采点、建模与误差分析，培养航空装备制造领域的精密检测能力。' },
+  { id: 'vr-02', title: '【国家一流课程】跨越时空——井冈山精神虚拟仿真实验', category: 'VR虚拟仿真', tags: ['国家一流课程', '红色文化', '思政'],
+    summary: '国家一流课程：以 VR 重走井冈山，沉浸式感悟跨越时空的井冈山精神。',
+    cover: 'covers/cover-vr-07.jpg', video: 'videos/vr-07.mp4', pinned: true,
+    desc: '国家一流课程。通过虚拟现实重走井冈山革命之路，沉浸式还原历史场景，让学员在交互体验中感悟跨越时空的井冈山精神。' },
+  { id: 'vr-03', title: '【国家一流课程】乐平古戏台营造技艺与建构认知', category: 'VR虚拟仿真', tags: ['国家一流课程', '古建', '传统技艺'],
+    summary: '国家一流课程：虚拟仿真乐平古戏台营造，认知传统木构建筑技艺。',
+    cover: 'covers/cover-vr-08.jpg', video: 'videos/vr-08.mp4', pinned: true,
+    desc: '国家一流课程。以虚拟仿真拆解乐平古戏台的榫卯结构与营造工序，帮助学员建立对传统木构建筑技艺与地域文化的系统认知。' }
+];
+
+var caseActive = '全部';
+var CATEGORIES = ['全部', 'MG动画', '数字人微课', 'VR虚拟仿真'];
+
+function renderResFilters() {
+  document.getElementById('resFilters').innerHTML = CATEGORIES.map(function (c) {
+    return '<button class="res-filter' + (c === caseActive ? ' active' : '') + '" data-cat="' + c + '">' + c + '</button>';
+  }).join('');
+  document.querySelectorAll('#resFilters .res-filter').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      caseActive = btn.getAttribute('data-cat');
+      renderResFilters();
+      renderCases();
+    });
+  });
+}
+
+function renderCases() {
+  var q = (document.getElementById('resSearch').value || '').trim().toLowerCase();
+  var list = CASES.filter(function (c) {
+    var okCat = caseActive === '全部' || c.category === caseActive;
+    var hay = (c.title + ' ' + c.category + ' ' + c.summary + ' ' + c.tags.join(' ')).toLowerCase();
+    return okCat && hay.indexOf(q) >= 0;
+  });
+  list.sort(function (a, b) { return (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0); });
+  document.getElementById('caseGrid').innerHTML = list.map(function (c) {
+    var pin = c.pinned ? '<span class="pin-badge">★ 国家一流课程</span>' : '';
+    var tags = c.tags.map(function (t) { return '<span>' + t + '</span>'; }).join('');
+    return '<article class="case-card" data-id="' + c.id + '" tabindex="0" role="button" aria-label="' + c.title + '">' +
+      '<div class="case-cover">' +
+        '<img src="' + c.cover + '" alt="' + c.title + '" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';" >' +
+        '<div class="cover-ph" style="display:none;background:linear-gradient(135deg,#16395b,#1b5e8c)">' + c.category + '</div>' +
+        '<span class="play-badge">▶</span>' + pin +
+      '</div>' +
+      '<div class="case-body"><h3>' + c.title + '</h3><p>' + c.summary + '</p><div class="case-tags">' + tags + '</div></div>' +
+    '</article>';
+  }).join('');
+  document.getElementById('resEmpty').style.display = list.length ? 'none' : 'block';
+  document.querySelectorAll('#caseGrid .case-card').forEach(function (card) {
+    card.addEventListener('click', function () { openCaseModal(card.getAttribute('data-id')); });
+    card.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
+    });
+  });
+}
+
+function openCaseModal(id) {
+  var c = CASES.filter(function (x) { return x.id === id; })[0];
+  if (!c) return;
+  document.getElementById('modalTitle').textContent = c.category + ' · 案例视频';
+  document.getElementById('modalBody').className = 'modal-body case-only';
+  document.getElementById('modalBody').innerHTML =
+    '<div class="case-video"><video src="' + c.video + '" controls autoplay playsinline></video></div>' +
+    '<div style="margin-top:4px">' +
+      '<h4>' + c.title + '</h4>' +
+      '<div class="m-meta">' + c.tags.map(function (t) { return '#' + t; }).join(' ') + '</div>' +
+      '<p>' + c.desc + '</p>' +
+    '</div>';
+  openOverlay('overlay');
+}
+
+/* ============ 弹窗通用 ============ */
+function openOverlay(id) { document.getElementById(id).classList.add('open'); }
+function closeOverlay(id) { document.getElementById(id).classList.remove('open'); }
+function closeModal() {
+  closeOverlay('overlay');
+  var v = document.querySelector('#modalBody video');
+  if (v) { v.pause(); v.src = v.src; }
+}
+function overlayBackdrop(e) {
+  if (e.target.classList.contains('overlay')) {
+    if (e.target.id === 'overlay') closeModal();
+    if (e.target.id === 'apptOverlay') closeAppt();
+  }
+}
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') { closeModal(); closeAppt(); }
+});
+
+/* ============ 预约表单 ============ */
+function openAppointment() { openOverlay('apptOverlay'); }
+function closeAppt() { closeOverlay('apptOverlay'); }
+function submitAppt(e) {
+  e.preventDefault();
+  var name = document.getElementById('fName').value.trim();
+  var phone = document.getElementById('fPhone').value.trim();
+  if (!name || !phone) { alert('请填写称呼与联系电话'); return; }
+  document.getElementById('apptBody').innerHTML =
+    '<div class="form-ok">' +
+      '<div class="ok-ico">✓</div>' +
+      '<h4>预约已提交</h4>' +
+      '<p>' + name + '老师，您好！我们已收到您的演示预约（' + phone + '），<br>商务团队将在 1 个工作日内与您联系，请保持电话畅通。</p>' +
+      '<button class="modal-dl" style="margin-top:14px" onclick="closeAppt()">好的</button>' +
+    '</div>';
+}
+
+/* ============ 滚动淡入 ============ */
+var fadeObserver = new IntersectionObserver(function (entries) {
+  entries.forEach(function (en) {
+    if (en.isIntersecting) { en.target.classList.add('in'); fadeObserver.unobserve(en.target); }
+  });
+}, { threshold: 0.12 });
+function revealFade(root) {
+  var els = (root || document).querySelectorAll('.fade:not(.in)');
+  els.forEach(function (el) { fadeObserver.observe(el); });
+}
+
+/* ============ 导航 ============ */
+window.addEventListener('scroll', function () {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 10);
+});
+document.getElementById('navBurger').addEventListener('click', function () {
+  document.getElementById('navLinks').classList.toggle('mobile-open');
+});
+document.querySelectorAll('#navLinks a').forEach(function (a) {
+  a.addEventListener('click', function () { document.getElementById('navLinks').classList.remove('mobile-open'); });
+});
+
+/* ============ 初始化 ============ */
+renderPolicyTabs();
+renderPolicyGrid();
+initSecTabs();
+initSlides();
+renderResFilters();
+renderCases();
+revealFade();
+document.getElementById('resSearch').addEventListener('input', renderCases);
+</script>
+</body>
+</html>
