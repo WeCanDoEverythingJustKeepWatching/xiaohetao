@@ -240,7 +240,7 @@ section{position:relative}
 .tab-panel.active{display:block;animation:panelIn .35s ease}
 @keyframes panelIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 
-.adv-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.adv-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
 .adv-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px 24px;transition:transform .22s,box-shadow .22s;text-align:center}
 .adv-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
 .adv-ico{width:56px;height:56px;margin:0 auto 16px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px}
@@ -278,8 +278,7 @@ section{position:relative}
 @keyframes pulseRing{0%{transform:scale(.6);opacity:.75}70%{transform:scale(1.08);opacity:0}100%{transform:scale(1.08);opacity:0}}
 .pulse-dot{animation:pulseDot 2.4s ease-in-out infinite}
 @keyframes pulseDot{0%,100%{opacity:.45}50%{opacity:1}}
-.sync-move{animation:syncMove 2.2s ease-in-out infinite}
-@keyframes syncMove{0%,100%{transform:translateX(-7px);opacity:.6}50%{transform:translateX(7px);opacity:1}}
+
 .grow-bar{animation:growBar 1.6s ease-in-out infinite alternate;transform-origin:bottom}
 @keyframes growBar{from{transform:scaleY(.55)}to{transform:scaleY(1)}}
 
@@ -460,7 +459,6 @@ section{position:relative}
       </div>
       <div class="hero-metrics">
         <div class="metric"><strong>教 · 学 · 评 · 管</strong><span>贯穿教学全流程</span></div>
-        <div class="metric"><strong>多端<span class="accent">·</span>同步</strong><span>电脑 / 平板 / 手机自适应</span></div>
         <div class="metric"><strong>数据<span class="accent">·</span>驱动</strong><span>学情统计精准反馈</span></div>
       </div>
     </div>
@@ -512,7 +510,7 @@ section{position:relative}
     <div class="section-head fade">
       <span class="section-kicker">PRODUCT VALUE</span>
       <h2 class="section-title">交互式数字教材 · 重构高校课堂教学形态</h2>
-      <p class="section-sub">区别于普通静态 PDF 电子书，小核桃以内容交互、学情数据与多端协同为核心，重塑课前、课中、课后的教学闭环。</p>
+      <p class="section-sub">区别于普通静态 PDF 电子书，小核桃以内容交互与学情数据为核心，重塑课前、课中、课后的教学闭环。</p>
       <div class="divider"></div>
     </div>
 
@@ -533,11 +531,6 @@ section{position:relative}
           <div class="adv-ico b2">🧭</div>
           <h3>学习行为可视化</h3>
           <p>学情管理后台沉淀学习进度、作答正确率与教学分析，让教师对学情一目了然。</p>
-        </div>
-        <div class="adv-card">
-          <div class="adv-ico b3">🔄</div>
-          <h3>多端同步体验</h3>
-          <p>电脑端、平板端、手机端自适应排版，学习进度云端同步，随课堂节奏自由切换。</p>
         </div>
       </div>
 
@@ -599,26 +592,10 @@ section{position:relative}
         <div class="dyn-item fade">
           <div class="dyn-ico">
             <svg viewBox="0 0 74 74" aria-hidden="true">
-              <circle cx="37" cy="37" r="34" fill="#eaf2f8"/>
-              <g class="sync-move">
-                <rect x="16" y="22" width="20" height="30" rx="4" fill="#1b5e8c"/>
-                <rect x="38" y="22" width="20" height="30" rx="4" fill="#4d7ba6"/>
-              </g>
-              <path d="M24 58 c0 4 5 6 13 6" stroke="#c9a227" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-              <path d="M24 61 c0 -4 5 -6 13 -6" stroke="#c9a227" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-              <circle cx="24" cy="59.5" r="2.6" fill="#c9a227"/>
-            </svg>
-          </div>
-          <h4>多端同步</h4>
-          <p>学习进度与笔记跨设备实时同步，课堂翻转衔接零成本。</p>
-        </div>
-        <div class="dyn-item fade">
-          <div class="dyn-ico">
-            <svg viewBox="0 0 74 74" aria-hidden="true">
               <circle cx="37" cy="37" r="34" fill="#fdf6e3"/>
               <circle class="pulse-ring" cx="37" cy="37" r="26" fill="none" stroke="#c9a227" stroke-width="2"/>
               <circle cx="37" cy="37" r="16" fill="#c9a227"/>
-              <path d="M37 29 a8 8 0 1 1 -5 2.2" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <path d="M37 29 a8 8 0 1 1 -5 2 -2" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/>
               <path d="M37 24 v6 M41.5 26.6 l-3.4 4.9" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
             </svg>
           </div>
@@ -638,9 +615,7 @@ section{position:relative}
           <h4>学情数据采集</h4>
           <p>学习时长、交互作答等数据自动沉淀，形成班级学情画像。</p>
         </div>
-      </div>
-      <div class="dyn-row fade" style="margin-top:12px">
-        <div class="dyn-item">
+        <div class="dyn-item fade">
           <div class="dyn-ico">
             <svg viewBox="0 0 74 74" aria-hidden="true">
               <circle cx="37" cy="37" r="34" fill="#f6ebf1"/>
@@ -653,6 +628,8 @@ section{position:relative}
           <h4>版权与隐私保护</h4>
           <p>资源权限分级管控，师生数据脱敏留存，符合高校数据安全要求。</p>
         </div>
+      </div>
+      <div class="dyn-row fade" style="margin-top:12px;grid-template-columns:repeat(2,1fr);max-width:66.66%;margin-left:auto;margin-right:auto">
         <div class="dyn-item">
           <div class="dyn-ico">
             <svg viewBox="0 0 74 74" aria-hidden="true">
