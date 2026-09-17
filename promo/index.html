@@ -136,8 +136,8 @@ section{position:relative}
 .hero-badge b{display:block;font-size:13px;color:var(--navy)}
 .hero-badge span{font-size:12px;color:var(--gray)}
 
-/* ============ 滚动淡入（带3秒CSS自动后备，防微信白屏） ============ */
-.fade{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease;animation:autoFadeIn .01s linear 3.2s forwards}
+/* ============ 滚动淡入（带0.6秒CSS自动后备，防微信白屏） ============ */
+.fade{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease;animation:autoFadeIn .01s linear .6s forwards}
 @keyframes autoFadeIn{to{opacity:1;transform:none}}
 .fade.in{opacity:1;transform:none;animation:none}
 
@@ -1069,7 +1069,7 @@ function renderPolicyGrid() {
       '<div class="shot">' +
         '<span class="badge">' + badgeTxt + '</span>' +
         (p.img
-          ? '<img src="' + p.img + '" alt="' + p.title + ' 政策文件截图" style="width:100%;height:auto;border-radius:6px;object-fit:contain;max-height:180px;box-shadow:0 2px 8px rgba(0,0,0,.08)">' +
+          ? '<img src="' + p.img + '" alt="' + p.title + ' 政策文件截图" style="width:100%;height:auto;border-radius:6px;object-fit:contain;max-height:180px;box-shadow:0 2px 8px rgba(0,0,0,.08)">'
           : '<div class="doc-shot"><div class="red"></div><div class="doc-title">' + p.title.replace('教育部关于印发', '').replace('的通知', '') + '</div><div class="doc-no">' + p.docNo + '</div><div class="doc-body"><i class="w70"></i><i class="w55"></i><i class="w80"></i><i class="w70"></i><i class="w60"></i></div><div class="stamp"></div></div>') +
         '<div class="mask">' + p.summary + '</div>' +
       '</div>' +
@@ -1310,6 +1310,33 @@ function renderBookTrack(){
   }).join('');
   // 复制两份实现无缝循环
   track.innerHTML = html + html;
+}
+
+/* ============ 滚动淡入：观察 .fade 元素，进入视口时加 .in ============ */
+function revealFade() {
+  var els = document.querySelectorAll('.fade:not(.in)');
+  if (!els.length) return;
+  // 优先用 IntersectionObserver（现代浏览器与微信新版）
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          en.target.classList.add('in');
+          io.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px -10% 0px' });
+    els.forEach(function (el) { io.observe(el); });
+    // 兜底：2 秒后仍未显示的元素强制显示，避免任何漏网
+    setTimeout(function () {
+      document.querySelectorAll('.fade:not(.in)').forEach(function (el) {
+        el.classList.add('in');
+      });
+    }, 2000);
+  } else {
+    // 老内核兜底：直接全部显示
+    els.forEach(function (el) { el.classList.add('in'); });
+  }
 }
 
 /* ============ 初始化 ============ */
