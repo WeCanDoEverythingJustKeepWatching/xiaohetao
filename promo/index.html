@@ -653,6 +653,12 @@ section{position:relative}
             </div>
             <figcaption>电脑 / 平板 / 手机三端自适应</figcaption>
           </figure>
+          <figure class="slide-card">
+            <div class="snap" data-zoom="在线标注与笔记功能">
+              <img src="screenshots/annotation-tool.png" alt="在线标注与笔记功能截图" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:6px">
+            </div>
+            <figcaption>在线标注与笔记 · 边学边记即时同步</figcaption>
+          </figure>
         </div>
         <button class="slide-arrow next" id="slideNext" aria-label="下一组">›</button>
       </div>
@@ -1229,17 +1235,19 @@ function initSlides() {
 function openZoomModal(snap, cards) {
   var label = snap.getAttribute('data-zoom') || '产品界面';
   var svgHtml = snap.querySelector('svg') ? snap.querySelector('svg').outerHTML : '';
+  var imgEl = snap.querySelector('img');
+  var imgHtml = imgEl ? '<img src="' + imgEl.src + '" alt="' + label + '" style="max-width:100%;max-height:380px;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.1);object-fit:contain">' : '';
+  var displayHtml = imgHtml || '<div style="transform:scale(1.35)">' + svgHtml + '</div>';
   document.getElementById('modalTitle').textContent = '截图预览 · ' + label;
   document.getElementById('modalBody').className = 'modal-body';
   var body = document.getElementById('modalBody');
   body.innerHTML = '<div class="modal-shot" style="min-height:380px;align-items:center">' +
-      '<div style="transform:scale(1.35)">' + svgHtml + '</div>' +
+      displayHtml +
     '</div>' +
     '<div class="modal-info">' +
       '<h4>' + label + '</h4>' +
-      '<div class="m-meta">界面示意图</div>' +
-      '<p>本图为产品界面示意（SVG 绘制），用于展示交互形态与信息布局。上线前可替换为真实产品截图。</p>' +
-      '<div class="note">📌 如需替换：将 <code>slide-card .snap</code> 中的 SVG 换成 <code>&lt;img src="真实截图.png"&gt;</code> 即可。</div>' +
+      '<div class="m-meta">' + (imgHtml ? '产品界面截图' : '界面示意图') + '</div>' +
+      '<p>' + (imgHtml ? '本图为产品真实界面截图，展示了' + label + '的实际使用效果。' : '本图为产品界面示意（SVG 绘制），用于展示交互形态与信息布局。上线前可替换为真实产品截图。') + '</p>' +
       '<div style="display:flex;gap:10px;flex-wrap:wrap">' +
         '<button class="modal-dl" onclick="zoomPrev()">‹ 上一张</button>' +
         '<button class="modal-dl" onclick="zoomNext()">下一张 ›</button>' +
