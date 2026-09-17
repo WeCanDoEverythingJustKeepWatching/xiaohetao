@@ -397,33 +397,6 @@ section{position:relative}
 .footer-links a:hover{color:#fff}
 .footer-copy{width:100%;text-align:center;font-size:12px;color:#6f8ba0;border-top:1px solid rgba(255,255,255,.1);padding-top:22px;margin-top:22px}
 
-/* ============ 悬浮预约 ============ */
-.fab{
-  position:fixed;right:26px;bottom:26px;z-index:150;background:linear-gradient(135deg,#d9b64a,#c9a227);color:#27301c;
-  font-size:15px;font-weight:700;border-radius:26px;padding:14px 26px;display:flex;align-items:center;gap:9px;
-  box-shadow:0 10px 26px rgba(201,162,39,.5);transition:transform .22s,box-shadow .22s;
-}
-.fab:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(201,162,39,.6)}
-.fab .fab-ico{font-size:18px;line-height:1}
-
-/* ============ 预约表单弹窗 ============ */
-.form-modal{width:min(480px,100%)}
-.form-row{margin-bottom:16px}
-.form-row label{display:block;font-size:13px;font-weight:600;color:var(--navy);margin-bottom:6px}
-.form-row input,.form-row select,.form-row textarea{
-  width:100%;border:1px solid var(--line);border-radius:8px;padding:10px 13px;font-size:14px;color:var(--ink);
-  font-family:inherit;outline:none;transition:border-color .2s,box-shadow .2s;background:#fff;
-}
-.form-row input:focus,.form-row select:focus,.form-row textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(27,94,140,.12)}
-.form-row textarea{resize:vertical;min-height:76px}
-.form-submit{width:100%;background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;font-size:15px;font-weight:700;
-  border-radius:24px;padding:13px;margin-top:6px;transition:transform .2s,box-shadow .2s}
-.form-submit:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(27,94,140,.4)}
-.form-ok{text-align:center;padding:30px 10px}
-.form-ok .ok-ico{width:64px;height:64px;border-radius:50%;background:#eaf4ec;color:#3c9a5e;font-size:30px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
-.form-ok h4{font-size:18px;color:var(--navy);margin-bottom:8px}
-.form-ok p{font-size:13.5px;color:var(--gray)}
-
 /* ============ 响应式 ============ */
 @media (max-width:1024px){
   .policy-grid,.adv-cards,.case-grid{grid-template-columns:repeat(2,1fr)}
@@ -452,7 +425,6 @@ section{position:relative}
   .slide-card{width:250px}
   .res-search input{width:100%}
   .res-toolbar{flex-direction:column;align-items:stretch}
-  .fab{right:16px;bottom:18px;padding:12px 20px;font-size:14px}
 }
 </style>
 </head>
@@ -468,7 +440,7 @@ section{position:relative}
       <a href="#cases">案例资源</a>
       <a href="#solution">解决方案</a>
       <a href="#contact">联系我们</a>
-      <a class="nav-cta" href="javascript:void(0)" onclick="openAppointment()">预约演示</a>
+      <a class="nav-cta" href="javascript:void(0)" onclick="location.href='#contact'">预约演示</a>
     </div>
     <button class="nav-burger" id="navBurger" aria-label="菜单"><span></span><span></span><span></span></button>
   </div>
@@ -483,7 +455,7 @@ section{position:relative}
       <p class="hero-sub">交互式数字教材，助力高校教育数字化转型</p>
       <p class="hero-desc">面向高校教务处与一线教师，提供课程建设、资源管理、学情分析与教学应用一体化服务，让教材从静态纸面走向动态交互。</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="javascript:void(0)" onclick="openAppointment()">预约产品演示</a>
+        <a class="btn btn-primary" href="javascript:void(0)" onclick="location.href='#contact'">预约产品演示</a>
         <a class="btn btn-ghost" href="#cases">查看案例资源</a>
       </div>
       <div class="hero-metrics">
@@ -776,7 +748,7 @@ section{position:relative}
         </div>
       </div>
       <div style="text-align:center;margin-top:34px" class="fade">
-        <a class="btn btn-primary" href="javascript:void(0)" onclick="openAppointment()">申请体验交互功能 &#8250;</a>
+        <a class="btn btn-primary" href="javascript:void(0)" onclick="location.href='#contact'">申请体验交互功能 &#8250;</a>
       </div>
     </div>
   </div>
@@ -1059,9 +1031,6 @@ section{position:relative}
   </div>
 </footer>
 
-<!-- ============ 悬浮预约按钮 ============ -->
-<button class="fab" onclick="openAppointment()"><span class="fab-ico">📅</span> 预约演示</button>
-
 <!-- ============ 通用弹窗（政策详情 / 截图预览 / 案例视频） ============ -->
 <div class="overlay" id="overlay" role="dialog" aria-modal="true" onclick="overlayBackdrop(event)">
   <div class="modal" id="modal">
@@ -1070,37 +1039,6 @@ section{position:relative}
       <button class="modal-close" onclick="closeModal()" aria-label="关闭">✕</button>
     </div>
     <div class="modal-body" id="modalBody"></div>
-  </div>
-</div>
-
-<!-- ============ 预约表单弹窗 ============ -->
-<div class="overlay" id="apptOverlay" role="dialog" aria-modal="true" onclick="overlayBackdrop(event)">
-  <div class="modal form-modal" id="apptModal">
-    <div class="modal-head">
-      <h3>预约产品演示</h3>
-      <button class="modal-close" onclick="closeAppt()" aria-label="关闭">✕</button>
-    </div>
-    <div class="modal-body" id="apptBody" style="grid-template-columns:1fr">
-      <form id="apptForm" onsubmit="submitAppt(event)">
-        <div class="form-row">
-          <label for="fName">您的称呼 *</label>
-          <input id="fName" type="text" placeholder="例如：张老师" required>
-        </div>
-        <div class="form-row">
-          <label for="fOrg">所在院校 / 单位</label>
-          <input id="fOrg" type="text" placeholder="例如：XX大学 教务处">
-        </div>
-        <div class="form-row">
-          <label for="fPhone">联系电话 *</label>
-          <input id="fPhone" type="tel" placeholder="手机或座机" required>
-        </div>
-        <div class="form-row">
-          <label for="fNeed">咨询需求</label>
-          <textarea id="fNeed" placeholder="例如：希望了解数字教材建设方案 / 预约产品演示"></textarea>
-        </div>
-        <button class="form-submit" type="submit">提交预约申请</button>
-      </form>
-    </div>
   </div>
 </div>
 
@@ -1128,7 +1066,7 @@ document.getElementById('contactPhone').textContent = CONFIG.PHONE;
 document.getElementById('year').textContent = new Date().getFullYear();
 
 /* ============ 板块1：政策数据 ============ */
-var POLICY_LEVELS = ['国家级政策', '江西省省级文件', '行业指导意见'];
+var POLICY_LEVELS = ['国家级政策'];
 
 var POLICIES = [
   {
@@ -1140,7 +1078,8 @@ var POLICIES = [
     summary: '提出构建"互联网+教育"大平台，数字教育资源共享成为基本公共服务。',
     desc: '《教育信息化2.0行动计划》将教育信息化作为教育系统性变革的内生变量，提出实施数字资源服务普及行动、网络学习空间覆盖行动等八大行动，推动数字教育资源从"专网专用"走向"共建共享"，为高校开展数字化教材与教学资源建设提供了顶层依据。',
     officialUrl: 'http://www.moe.gov.cn/srcsite/A16/s3342/201804/t20180425_334188.html',
-    isPlaceholder: false
+    isPlaceholder: false,
+    img: 'policies/policy-edu-info2-0.jpg'
   },
   {
     level: '国家级政策',
@@ -1151,51 +1090,32 @@ var POLICIES = [
     summary: '数字化教学资源建设与数字校园基础设施有了统一的国标级规范。',
     desc: '《高等学校数字校园建设规范（试行）》面向高校数字校园建设提出了总体要求、主要组成与建设流程，其中"信息资源—数字化教学资源"章节直接规范了数字教材、网络课程、虚拟实验等资源的建设与应用要求，是高校引进数字教材平台的重要参照标准。',
     officialUrl: 'http://www.moe.gov.cn/srcsite/A16/s3342/202103/t20210322_521675.html',
-    isPlaceholder: false
+    isPlaceholder: false,
+    img: 'policies/policy-digital-campus.png'
   },
   {
     level: '国家级政策',
     title: '教育部办公厅关于印发《国家智慧教育平台数字教育资源内容审核规范（试行）》的通知',
     dept: '教育部办公厅',
-    docNo: '教技厅函〔2022〕2号',
+    docNo: '教科信厅函〔2022〕22号',
     date: '2022年5月',
     summary: '数字教育资源的"上线必审、更新必审"为教材内容安全立下硬规矩。',
     desc: '该规范建立了数字教育资源内容审核的责任体系与审核规程，明确"谁主管谁负责、谁上线谁负责"原则，覆盖网络课程、数字教材、虚拟实验等各类资源。小核桃内容生产流程即按"三审三校"标准执行，与规范要求对齐。',
     officialUrl: 'http://www.moe.gov.cn/srcsite/A16/s3342/202211/t20221108_979699.html',
-    isPlaceholder: false
+    isPlaceholder: false,
+    img: 'policies/policy-content-review.jpg'
   },
   {
     level: '国家级政策',
     title: '教育部等九部门《关于加快推进教育数字化的意见》',
     dept: '教育部等九部门',
-    docNo: '发布会解读',
+    docNo: '教办〔2025〕3号',
     date: '2025年4月',
     summary: '对推进教育数字化进行全面部署，明确数字教材建设与应用的深化方向。',
     desc: '《意见》在总结国家教育数字化战略行动实施经验基础上，对未来一个阶段推进教育数字化作出全面部署，强调教育数字化是新赛道、新优势的重要突破口。教育部新闻发布会同步对《意见》进行了权威解读（本卡片链接为该发布会的官方实录页面）。',
     officialUrl: 'http://www.moe.gov.cn/fbh/live/2025/56808/twwd/202504/t20250416_1187611.html',
-    isPlaceholder: false
-  },
-  {
-    level: '江西省省级文件',
-    title: '江西省推进教育数字化、深化高校教育教学改革相关政策文件（示例）',
-    dept: '江西省教育厅',
-    docNo: '文号待核',
-    date: '以正式文件为准',
-    summary: '江西省省级数字教材与智慧教学建设要求（示例文案，上线前替换为正式文件）。',
-    desc: '【示例占位卡片】此处展示江西省教育厅关于高等教育数字化、数字教育资源建设等方面的省级政策文件截图与要点摘编。请用贵省正式政策文件（含发文文号、发布时间与原文链接）替换本条内容，并完成敏感信息脱敏处理。',
-    officialUrl: 'https://jyt.jiangxi.gov.cn/',
-    isPlaceholder: true
-  },
-  {
-    level: '行业指导意见',
-    title: '高等教育数字化行业简报 · 数字教材应用趋势摘编（示例）',
-    dept: '行业研究简报',
-    docNo: '简讯编号待填',
-    date: '以简报为准',
-    summary: '行业简报摘要：数字教材从"纸质电子化"迈向"交互化、数据化"的必然趋势。',
-    desc: '【示例占位卡片】此处展示高等教育数字化相关的行业研讨会简报、指导性文件或权威媒体综述的截图摘要。请替换为实际简报/指导意见的正式截图，并标注来源刊物、期号与发布日期。',
-    officialUrl: 'javascript:void(0)',
-    isPlaceholder: true
+    isPlaceholder: false,
+    img: 'policies/policy-edu-digital.jpg'
   }
 ];
 
@@ -1226,9 +1146,11 @@ function renderPolicyGrid() {
     return '<article class="policy-card fade in" data-index="' + i + '" tabindex="0" role="button" aria-label="' + p.title + '">' +
       '<div class="shot">' +
         '<span class="badge">' + badgeTxt + '</span>' +
-        (p.level === '国家级政策'
-          ? '<div class="doc-shot"><div class="red"></div><div class="doc-title">' + p.title.replace('教育部关于印发', '').replace('的通知', '') + '</div><div class="doc-no">' + p.docNo + '</div><div class="doc-body"><i class="w70"></i><i class="w55"></i><i class="w80"></i><i class="w70"></i><i class="w60"></i></div><div class="stamp"></div></div>'
-          : '<div class="doc-shot long"><div class="red"></div><div class="doc-title">政策文件截图<br>（示例）</div><div class="doc-no">' + p.docNo + '</div><div class="doc-body"><i class="w70"></i><i class="w55"></i><i class="w80"></i><i class="w70"></i><i class="w60"></i></div><div class="stamp"></div></div>') +
+        (p.img
+          ? '<img src="' + p.img + '" alt="' + p.title + ' 政策文件截图" style="width:100%;height:auto;border-radius:6px;object-fit:contain;max-height:180px;box-shadow:0 2px 8px rgba(0,0,0,.08)">'
+          : (p.level === '国家级政策'
+              ? '<div class="doc-shot"><div class="red"></div><div class="doc-title">' + p.title.replace('教育部关于印发', '').replace('的通知', '') + '</div><div class="doc-no">' + p.docNo + '</div><div class="doc-body"><i class="w70"></i><i class="w55"></i><i class="w80"></i><i class="w70"></i><i class="w60"></i></div><div class="stamp"></div></div>'
+              : '<div class="doc-shot long"><div class="red"></div><div class="doc-title">政策文件截图<br>（示例）</div><div class="doc-no">' + p.docNo + '</div><div class="doc-body"><i class="w70"></i><i class="w55"></i><i class="w80"></i><i class="w70"></i><i class="w60"></i></div><div class="stamp"></div></div>')) +
         '<div class="mask">💡 ' + p.summary + '</div>' +
       '</div>' +
       '<div class="info">' +
@@ -1250,9 +1172,9 @@ function renderPolicyGrid() {
 
 function openPolicyModal(p) {
   document.getElementById('modalTitle').textContent = p.level;
-  var shotHtml = p.level === '国家级政策'
-    ? '<div style="text-align:center"><div class="doc-shot" style="max-width:340px;padding:26px 22px"><div class="red" style="height:8px"></div><div class="doc-title" style="font-size:14px">' + p.title + '</div><div class="doc-no">' + p.docNo + '</div><div class="doc-body" style="gap:8px"><i style="height:6px"></i><i style="height:6px" class="w70"></i><i style="height:6px" class="w55"></i><i style="height:6px" class="w80"></i><i style="height:6px" class="w70"></i><i style="height:6px" class="w60"></i></div></div><div style="font-size:12px;color:#9aa7b1;margin-top:12px">政策文件截图（示意）· 点击下方链接查看官方原文</div></div>'
-    : '<div style="text-align:center"><div class="doc-shot" style="max-width:300px;padding:24px 20px"><div class="red"></div><div class="doc-title">' + p.title + '</div><div class="doc-no">' + p.docNo + '</div><div class="doc-body" style="gap:8px"><i style="height:6px"></i><i style="height:6px" class="w70"></i><i style="height:6px" class="w55"></i><i style="height:6px" class="w80"></i></div></div><div style="font-size:12px;color:#9aa7b1;margin-top:12px">' + (p.isPlaceholder ? '占位截图 · 上线前替换为正式政策文件截图（脱敏）' : '政策文件截图（示意）') + '</div></div>';
+  var shotHtml = p.img
+    ? '<div style="text-align:center"><img src="' + p.img + '" alt="' + p.title + ' 政策文件截图" style="max-width:100%;max-height:400px;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.1);object-fit:contain"><div style="font-size:12px;color:#9aa7b1;margin-top:12px">政策文件截图 · 点击下方链接查看官方原文</div></div>'
+    : '<div style="text-align:center"><div class="doc-shot" style="max-width:340px;padding:26px 22px"><div class="red" style="height:8px"></div><div class="doc-title" style="font-size:14px">' + p.title + '</div><div class="doc-no">' + p.docNo + '</div><div class="doc-body" style="gap:8px"><i style="height:6px"></i><i style="height:6px" class="w70"></i><i style="height:6px" class="w55"></i><i style="height:6px" class="w80"></i><i style="height:6px" class="w70"></i><i style="height:6px" class="w60"></i></div></div><div style="font-size:12px;color:#9aa7b1;margin-top:12px">政策文件截图（示意）· 点击下方链接查看官方原文</div></div>';
   document.getElementById('modalBody').innerHTML =
     '<div class="modal-shot">' + shotHtml + '</div>' +
     '<div class="modal-info">' +
@@ -1442,29 +1364,11 @@ function closeModal() {
 function overlayBackdrop(e) {
   if (e.target.classList.contains('overlay')) {
     if (e.target.id === 'overlay') closeModal();
-    if (e.target.id === 'apptOverlay') closeAppt();
   }
 }
 document.addEventListener('keydown', function (e) {
-  if (e.key === 'Escape') { closeModal(); closeAppt(); }
+  if (e.key === 'Escape') { closeModal(); }
 });
-
-/* ============ 预约表单 ============ */
-function openAppointment() { openOverlay('apptOverlay'); }
-function closeAppt() { closeOverlay('apptOverlay'); }
-function submitAppt(e) {
-  e.preventDefault();
-  var name = document.getElementById('fName').value.trim();
-  var phone = document.getElementById('fPhone').value.trim();
-  if (!name || !phone) { alert('请填写称呼与联系电话'); return; }
-  document.getElementById('apptBody').innerHTML =
-    '<div class="form-ok">' +
-      '<div class="ok-ico">✓</div>' +
-      '<h4>预约已提交</h4>' +
-      '<p>' + name + '老师，您好！我们已收到您的演示预约（' + phone + '），<br>商务团队将在 1 个工作日内与您联系，请保持电话畅通。</p>' +
-      '<button class="modal-dl" style="margin-top:14px" onclick="closeAppt()">好的</button>' +
-    '</div>';
-}
 
 /* ============ 滚动淡入 ============ */
 var fadeObserver = new IntersectionObserver(function (entries) {
