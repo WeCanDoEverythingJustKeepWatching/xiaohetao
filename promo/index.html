@@ -136,9 +136,10 @@ section{position:relative}
 .hero-badge b{display:block;font-size:13px;color:var(--navy)}
 .hero-badge span{font-size:12px;color:var(--gray)}
 
-/* ============ 滚动淡入 ============ */
-.fade{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease}
-.fade.in{opacity:1;transform:none}
+/* ============ 滚动淡入（带3秒CSS自动后备，防微信白屏） ============ */
+.fade{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease;animation:autoFadeIn .01s linear 3.2s forwards}
+@keyframes autoFadeIn{to{opacity:1;transform:none}}
+.fade.in{opacity:1;transform:none;animation:none}
 
 /* ============ 板块1：政策导向 ============ */
 .section{padding:88px 0}
@@ -1289,39 +1290,6 @@ function overlayBackdrop(e) {
 }
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape') { closeModal(); }
-});
-
-/* ============ 滚动淡入（兼容性后备） ============ */
-var fadeObserver;
-function revealFade(root) {
-  var els = (root || document).querySelectorAll('.fade:not(.in)');
-  if (!window.IntersectionObserver) {
-    els.forEach(function (el) { el.classList.add('in'); });
-    return;
-  }
-  if (!fadeObserver) {
-    fadeObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) { en.target.classList.add('in'); fadeObserver.unobserve(en.target); }
-      });
-    }, { threshold: 0.08 });
-  }
-  els.forEach(function (el) { fadeObserver.observe(el); });
-}
-// 3 秒后自动显示所有尚未淡入的元素（防止 IO 在微信内失效导致白屏）
-setTimeout(function () {
-  document.querySelectorAll('.fade:not(.in)').forEach(function (el) { el.classList.add('in'); });
-}, 3000);
-
-/* ============ 导航 ============ */
-window.addEventListener('scroll', function () {
-  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 10);
-});
-document.getElementById('navBurger').addEventListener('click', function () {
-  document.getElementById('navLinks').classList.toggle('mobile-open');
-});
-document.querySelectorAll('#navLinks a').forEach(function (a) {
-  a.addEventListener('click', function () { document.getElementById('navLinks').classList.remove('mobile-open'); });
 });
 
 /* ============ 数字教材封面滚动区 ============ */
