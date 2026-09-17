@@ -256,6 +256,27 @@ section{position:relative}
 .dyn-ico svg{width:74px;height:74px}
 .dyn-item h4{font-size:15px;color:var(--navy);margin-bottom:8px}
 .dyn-item p{font-size:13px;color:var(--gray)}
+
+/* ============ 数字教材封面无限滚动 ============ */
+.book-marquee{margin-top:44px;position:relative;overflow:hidden}
+.book-marquee::before,.book-marquee::after{content:"";position:absolute;top:0;bottom:0;width:72px;z-index:2;pointer-events:none}
+.book-marquee::before{left:0;background:linear-gradient(90deg,var(--bg-gray),transparent)}
+.book-marquee::after{right:0;background:linear-gradient(270deg,var(--bg-gray),transparent)}
+.book-track{display:flex;gap:20px;animation:bookScroll 28s linear infinite;width:max-content}
+.book-marquee:hover .book-track{animation-play-state:paused}
+.book-card{flex:none;width:170px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform .22s,box-shadow .22s}
+.book-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.book-card img{width:100%;height:226px;object-fit:cover;display:block}
+.book-card .book-info{padding:10px 12px}
+.book-card .book-info h5{font-size:12.5px;color:var(--navy);font-weight:700;line-height:1.4}
+@keyframes bookScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.book-platform-row{margin-top:28px;text-align:center}
+.book-platform-row p{font-size:13.5px;color:var(--gray);margin-bottom:14px}
+
+@media (max-width:760px){
+  .book-card{width:140px}
+  .book-card img{height:186px}
+}
 .pulse-ring{animation:pulseRing 2.4s ease-out infinite;transform-origin:center}
 @keyframes pulseRing{0%{transform:scale(.6);opacity:.75}70%{transform:scale(1.08);opacity:0}100%{transform:scale(1.08);opacity:0}}
 .pulse-dot{animation:pulseDot 2.4s ease-in-out infinite}
@@ -694,9 +715,12 @@ section{position:relative}
     </div>
     <div class="case-grid fade" id="caseGrid"></div>
     <div class="res-empty" id="resEmpty">未找到匹配的案例，试试更换关键词或分类。</div>
-    <div class="res-more fade">
-      <p>想探索更多虚拟仿真、数字人微课与 MG 动画资源？</p>
-      <a class="btn btn-primary" id="virtualLink" href="javascript:void(0)" onclick="openVirtual()">查看更多虚仿案例 &#8599;</a>
+    <div class="book-marquee fade">
+      <div class="book-track" id="bookTrack"></div>
+    </div>
+    <div class="book-platform-row fade">
+      <p>以上为小核桃数字教材平台已上线部分教材封面</p>
+      <a class="btn btn-primary" href="javascript:void(0)" onclick="window.open('https://hetaozhixue.com/', '_blank', 'noopener')">访问核桃智学平台查看更多 &#8599;</a>
     </div>
   </div>
 </section>
@@ -1289,12 +1313,33 @@ document.querySelectorAll('#navLinks a').forEach(function (a) {
   a.addEventListener('click', function () { document.getElementById('navLinks').classList.remove('mobile-open'); });
 });
 
+/* ============ 数字教材封面滚动区 ============ */
+var BOOK_COVERS = [
+  {img:'screenshots/book-14.png', title:'大学美育'},
+  {img:'screenshots/book-15.png', title:'新能源汽车试验技术'},
+  {img:'screenshots/book-16.png', title:'全栈开发实战教程'},
+  {img:'screenshots/book-17.png', title:'物联网技术'},
+  {img:'screenshots/book-18.png', title:'医学生物化学'},
+  {img:'screenshots/book-19.png', title:'妇产科学'},
+  {img:'screenshots/book-20.png', title:'TypeScript基础'}
+];
+function renderBookTrack(){
+  var track = document.getElementById('bookTrack');
+  if(!track) return;
+  var html = BOOK_COVERS.map(function(b){
+    return '<div class="book-card"><img src="'+b.img+'" alt="'+b.title+'" loading="lazy"><div class="book-info"><h5>'+b.title+'</h5></div></div>';
+  }).join('');
+  // 复制两份实现无缝循环
+  track.innerHTML = html + html;
+}
+
 /* ============ 初始化 ============ */
 renderPolicyGrid();
 initSecTabs();
 initSlides();
 renderResFilters();
 renderCases();
+renderBookTrack();
 revealFade();
 document.getElementById('resSearch').addEventListener('input', renderCases);
 </script>
