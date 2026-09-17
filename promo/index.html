@@ -1247,7 +1247,7 @@ function openCaseModal(id) {
   document.getElementById('modalTitle').textContent = c.category + ' &#183; 案例视频';
   document.getElementById('modalBody').className = 'modal-body case-only';
   document.getElementById('modalBody').innerHTML =
-    '<div class="case-video"><video src="' + c.video + '" controls autoplay playsinline></video></div>' +
+    '<div class="case-video"><video preload="none" poster="' + c.cover + '" controls playsinline><source src="' + c.video + '" type="video/mp4"></video></div>' +
     '<div style="margin-top:4px">' +
       '<h4>' + c.title + '</h4>' +
       '<div class="m-meta">' + c.tags.map(function (t) { return '#' + t; }).join(' ') + '</div>' +
@@ -1262,7 +1262,12 @@ function closeOverlay(id) { document.getElementById(id).classList.remove('open')
 function closeModal() {
   closeOverlay('overlay');
   var v = document.querySelector('#modalBody video');
-  if (v) { v.pause(); v.src = v.src; }
+  if (v) {
+    v.pause();
+    v.removeAttribute('src');
+    while (v.firstChild) v.removeChild(v.firstChild);
+    v.load();
+  }
 }
 function overlayBackdrop(e) {
   if (e.target.classList.contains('overlay')) {
