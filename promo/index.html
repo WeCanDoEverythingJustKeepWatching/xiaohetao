@@ -1291,16 +1291,27 @@ document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape') { closeModal(); }
 });
 
-/* ============ 滚动淡入 ============ */
-var fadeObserver = new IntersectionObserver(function (entries) {
-  entries.forEach(function (en) {
-    if (en.isIntersecting) { en.target.classList.add('in'); fadeObserver.unobserve(en.target); }
-  });
-}, { threshold: 0.12 });
+/* ============ 滚动淡入（兼容性后备） ============ */
+var fadeObserver;
 function revealFade(root) {
   var els = (root || document).querySelectorAll('.fade:not(.in)');
+  if (!window.IntersectionObserver) {
+    els.forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+  if (!fadeObserver) {
+    fadeObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('in'); fadeObserver.unobserve(en.target); }
+      });
+    }, { threshold: 0.08 });
+  }
   els.forEach(function (el) { fadeObserver.observe(el); });
 }
+// 3 秒后自动显示所有尚未淡入的元素（防止 IO 在微信内失效导致白屏）
+setTimeout(function () {
+  document.querySelectorAll('.fade:not(.in)').forEach(function (el) { el.classList.add('in'); });
+}, 3000);
 
 /* ============ 导航 ============ */
 window.addEventListener('scroll', function () {
